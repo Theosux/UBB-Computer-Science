@@ -1,0 +1,8 @@
+4,John Doe,50,Decomandat
+3,Teodor Cotovanu,55,Semidecomandat
+5,ABC,100,Apartament
+6,DEF,1000,ABC
+8,Nume,1111,Tip
+9,Teodora,100,Apartament
+1,Dragos Popescu,45,Garsoniera
+11,Teodor Cotovanu,55,Semidecomandat

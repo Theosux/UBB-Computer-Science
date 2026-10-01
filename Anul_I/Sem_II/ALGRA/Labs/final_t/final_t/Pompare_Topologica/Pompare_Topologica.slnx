@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Pompare_Topologica/Pompare_Topologica.vcxproj" Id="b81d749b-40e5-409d-a3d6-ca5ad5382f35" />
+</Solution>

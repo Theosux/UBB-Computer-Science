@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Ford-Fulkerson/Ford-Fulkerson.vcxproj" Id="9dfeda30-2929-442a-8714-24482af20eb4" />
+</Solution>

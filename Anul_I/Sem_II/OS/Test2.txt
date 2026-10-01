@@ -1,0 +1,5 @@
+bash script :3 nume de fisier 
+luati toate procesele care ruleaza pe sistemu vostru ps -e
+in primu fisier se vor scrie toate procesele care ruleaza de mai putin de o ora
+in al  doilea se scriu toate procesele care ruleaza mai mult de 20h
+in al treilea se vor scrie toate procesele al carui pib are o lungime de 5 carac si incepe cu cifra 3

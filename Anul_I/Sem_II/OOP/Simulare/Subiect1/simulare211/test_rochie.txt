@@ -1,0 +1,5 @@
+1,R1,L,500,False
+2,R2,S,300,True
+4,R4,XXL,100,True
+5,R5,XL,200,True
+6,R6,Z,800,True

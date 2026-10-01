@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Prim/Prim.vcxproj" Id="a5a5ac6c-cd06-4dcc-b920-3083e83bd895" />
+</Solution>

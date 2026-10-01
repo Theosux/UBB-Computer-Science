@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="flux_pompare_preflux/flux_pompare_preflux.vcxproj" Id="4fc7b3ac-4313-4391-9c38-34174e6b0a34" />
+</Solution>

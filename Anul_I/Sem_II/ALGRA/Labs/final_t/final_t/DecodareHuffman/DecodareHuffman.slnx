@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="DecodareHuffman/DecodareHuffman.vcxproj" Id="9d0b53f8-8478-4228-9943-3fd1b035f237" />
+</Solution>

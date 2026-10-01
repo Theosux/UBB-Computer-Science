@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="CodareHuffman/CodareHuffman.vcxproj" Id="ad2b741b-7431-4c7f-98d8-d7c5d330f2e8" />
+</Solution>

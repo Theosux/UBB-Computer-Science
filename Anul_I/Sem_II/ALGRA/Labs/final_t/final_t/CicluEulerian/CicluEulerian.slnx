@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="CicluEulerian/CicluEulerian.vcxproj" Id="1826a3ab-7f5a-486c-ad35-d094a8c88694" />
+</Solution>

@@ -1,0 +1,4 @@
+2,M2,Queen,2
+3,M3 nou,ABBA,10
+4,M4,Beatles,2
+5,M5,U2,4

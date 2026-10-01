@@ -1,0 +1,16 @@
+:
+scrieti un script bash care:
+-sortat  continut/regex pe diagonala /matrice transpusa (verifici matrice transpusa)/
+-exista intr-un fisier
+-pe  liniii
+
+
+2)
+bash script care:
+fisier de intrare
+verificam:
+validam daca sunt bune:
+-eliminam dublicate
+
+si afiseze:
+-ceva de cautat continut

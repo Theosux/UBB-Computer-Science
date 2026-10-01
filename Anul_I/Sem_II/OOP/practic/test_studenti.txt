@@ -1,0 +1,3 @@
+4,NumeA,20,ai
+6,NumeC,22,mate
+11,Exemplu,31,mate-info

@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="DecodarePrufer/DecodarePrufer.vcxproj" Id="4ad4bbaf-d0fd-43f2-bf8e-0993e61de54e" />
+</Solution>

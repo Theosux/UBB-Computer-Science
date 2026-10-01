@@ -1,0 +1,7 @@
+In Melodii2:
+Teste
+Fisier pentru vizualul de la exercitiul final
+functia de reload si finisare gui
+
+Pt teoretic:
+cheat sheeturile tip template

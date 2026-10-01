@@ -1,0 +1,7 @@
+2,Teodora,21,info
+6,NumeC,21,mate
+7,Matei,24,mate
+9,Andrei,26,ai
+12,TeoC,20,mate-info
+13,Andrei,99,mate-info
+20,Rafael,33,ai

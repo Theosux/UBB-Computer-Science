@@ -1,0 +1,21 @@
+7.
+a) returneaza ultimul elem dintro lista
+
+
+		 |l1	n=1
+ultim(l1...ln) = |
+		 |ultim(l2...ln) altfel
+
+alt exemplu pt suma:
+
+
+	  | 0				n = 0
+suma(n) = | n				n < 10
+	  | n mod 10 + suma(n/10)	altfel
+
+b) sa stergem elementul de pe poz p
+
+
+		     | l2 ..ln 		p = 1
+sterge(l1...ln, p) = |
+		     | l1 (+) sterge(l2...ln,p-1) altfel

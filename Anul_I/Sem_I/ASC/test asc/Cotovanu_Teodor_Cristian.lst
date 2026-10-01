@@ -1,0 +1,138 @@
+     1                                  bits 32 
+     2                                  
+     3                                  global start        
+     4                                  
+     5                                  extern exit, scanf, printf, fopen, fclose, fprintf, getchar             
+     6                                  import exit msvcrt.dll    
+     7                                  import scanf msvcrt.dll    
+     8                                  import printf msvcrt.dll    
+     9                                  import fopen msvcrt.dll    
+    10                                  import fclose msvcrt.dll    
+    11                                  import fprintf msvcrt.dll    
+    12                                  import getchar msvcrt.dll    
+    13                                  
+    14                                  
+    15                                  segment data use32 class=data
+    16 00000000 6F75742E74787400            nume_fisier db "out.txt", 0
+    17 00000008 7700                        mod_acces db "w", 0
+    18 0000000A FFFFFFFF                    descriptor_fisier dd -1
+    19 0000000E 256400                      format_citireN db "%d", 0
+    20 00000011 256300                      format_citireL db "%c", 0
+    21 00000014 257300                      format_citireC db "%s", 0
+    22 00000017 25732000                    format_afisare db "%s ", 0
+    23 0000001B 4E3A2000                    msgN db "N: ", 0
+    24 0000001F 4C3A2000                    msgL db "L: ", 0
+    25 00000023 437576616E743A2000          msgC db "Cuvant: ", 0
+    26 0000002C 00000000                    N dd 0
+    27 00000030 00000000                    L dd 0
+    28 00000034 00<rept>                    C times 100 db 0
+    29                                      
+    30                                  
+    31                                  
+    32                                  ;citeste de la tastatura, in mod repetat, un nr natural N, o litera L si un cuvant.
+    33                                  ;programul va scrie in fisierul text indicat mai jos doar cuvintele care contin litera L si sunt formate din exact N litere.
+    34                                  ;citirea se incheie pentru N = 0
+    35                                  segment code use32 class=code
+    36                                      start:
+    37                                          ;fopen(nume_fisier, mod_acces)
+    38 00000000 68[08000000]                    push dword mod_acces
+    39 00000005 68[00000000]                    push dword nume_fisier
+    40 0000000A FF15[00000000]                  call [fopen]
+    41 00000010 83C408                          add esp, 4*2
+    42                                          
+    43 00000013 A3[0A000000]                    mov [descriptor_fisier], eax
+    44 00000018 83F800                          cmp eax, 0
+    45 0000001B 0F84DF000000                    je final
+    46                                          
+    47                                          
+    48                                          repeta:
+    49                                              ;printf(msgN)
+    50 00000021 68[1B000000]                        push dword msgN
+    51 00000026 FF15[00000000]                      call [printf]
+    52 0000002C 83C404                              add esp, 4
+    53                                              
+    54                                              ;scanf(format_citireN, N)       ; luam N
+    55 0000002F 68[2C000000]                        push dword N
+    56 00000034 68[0E000000]                        push dword format_citireN
+    57 00000039 FF15[00000000]                      call [scanf]
+    58 0000003F 83C408                              add esp, 4*2
+    59                                              
+    60 00000042 FF15[00000000]                      call [getchar]
+    61                                              
+    62 00000048 A1[2C000000]                        mov eax, [N]
+    63 0000004D 83F800                              cmp eax, 0                      ; iesim imediat ce N = 0
+    64 00000050 0F849B000000                        je final_repeta
+    65                                              
+    66                                              ;printf(msgL)
+    67 00000056 68[1F000000]                        push dword msgL
+    68 0000005B FF15[00000000]                      call [printf]
+    69 00000061 83C404                              add esp, 4
+    70                                              
+    71                                              ;scanf(format_citireN, L)       ; luam L
+    72 00000064 68[30000000]                        push dword L
+    73 00000069 68[11000000]                        push dword format_citireL
+    74 0000006E FF15[00000000]                      call [scanf]
+    75 00000074 83C408                              add esp, 4*2
+    76                                              
+    77 00000077 FF15[00000000]                      call [getchar]
+    78                                              
+    79                                              ;printf(msgC)                   
+    80 0000007D 68[23000000]                        push dword msgC
+    81 00000082 FF15[00000000]                      call [printf]
+    82 00000088 83C404                              add esp, 4
+    83                                              
+    84                                              ;scanf(format_citireN, C)       ; luam C
+    85 0000008B 68[34000000]                        push dword C
+    86 00000090 68[14000000]                        push dword format_citireC
+    87 00000095 FF15[00000000]                      call [scanf]
+    88 0000009B 83C408                              add esp, 4*2
+    89                                              
+    90 0000009E FF15[00000000]                      call [getchar]
+    91                                              
+    92                                  
+    93                                              
+    94                                              ;rezolvarea logica a problemei
+    95 000000A4 BE[34000000]                        mov esi, C
+    96 000000A9 FC                                  cld
+    97 000000AA 6631DB                              xor bx, bx                  ; ok =  0 (daca gasim litera facem 1)
+    98 000000AD 31D2                                xor edx, edx                ; contor de litere
+    99 000000AF 8B0D[30000000]                      mov ecx, [L]                ; in cl vom avea litera
+   100                                              parcurgere:
+   101 000000B5 AC                                      lodsb                   ; luam litere rand pe rand
+   102 000000B6 3C00                                    cmp al, 0               ; daca nu mai sunt litere iesim
+   103 000000B8 740B                                    je parcurgere_final
+   104 000000BA 42                                      inc edx                 ; nu am iesit deci incrementam numarul de litere
+   105 000000BB 38C8                                    cmp al, cl              ; vedem daca am gasit litera L
+   106 000000BD 7504                                    jne sari
+   107 000000BF 66BB0100                                mov bx, 1
+   108                                                  sari:
+   109 000000C3 EBF0                                jmp parcurgere
+   110                                              parcurgere_final:
+   111 000000C5 3B15[2C000000]                      cmp edx, [N]                ; sunt N litere?
+   112 000000CB 751F                                jne next
+   113 000000CD 6683FB01                            cmp bx, 1                   ; s-a gasit litera L?
+   114 000000D1 7519                                jne next                    ; daca nu, se sare peste printare
+   115                                              
+   116                                              ;fprintf([descriptor_fisier], format_afisare, C)            ; Printam cuvantul C, nicio modificare, simplu
+   117 000000D3 68[34000000]                        push dword C
+   118 000000D8 68[17000000]                        push dword format_afisare
+   119 000000DD FF35[0A000000]                      push dword [descriptor_fisier]
+   120 000000E3 FF15[00000000]                      call [fprintf]
+   121 000000E9 83C40C                              add esp, 3*4
+   122                                              
+   123                                              
+   124                                              next:
+   125                                              
+   126 000000EC E930FFFFFF                          jmp repeta
+   127                                          final_repeta:
+   128                                          
+   129                                          ;fclose([descriptor_fisier]) (Inchidem fisierul in cazul in care acesta a fost deschis cu succes)
+   130 000000F1 FF35[0A000000]                  push dword [descriptor_fisier]
+   131 000000F7 FF15[00000000]                  call [fclose]
+   132 000000FD 83C404                          add esp, 4
+   133                                          
+   134                                          
+   135                                          final:
+   136                                      
+   137 00000100 6A00                            push    dword 0      ; push the parameter for exit onto the stack
+   138 00000102 FF15[00000000]                  call    [exit]       ; call exit to terminate the program

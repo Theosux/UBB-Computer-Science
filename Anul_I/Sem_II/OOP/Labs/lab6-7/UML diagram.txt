@@ -1,0 +1,81 @@
+classDiagram
+    class Locatar {
+        -int apartament
+        -string numeProprietar
+        -int suprafata
+        -string tipApartament
+        +Locatar()
+        +Locatar(apartament, nume, suprafata, tip)
+        +getApartament() int
+        +getNumeProprietar() string
+        +getSuprafata() int
+        +getTipApartament() string
+        +setNumeProprietar(numeNou)
+        +setSuprafata(suprafataNoua)
+        +setTipApartament(tipNou)
+    }
+
+    class VectorDinamic~T~ {
+        -int capacitate
+        -int dimensiune
+        -T* elemente
+        +VectorDinamic()
+        +push_back(element)
+        +at(index) T
+        +erase(index)
+        +size() int
+        +empty() bool
+        +begin() IteratorVector
+        +end() IteratorVector
+    }
+
+    class ValidatorLocatar {
+        +valideaza(Locatar l)
+    }
+
+    class LocatarRepo {
+        -VectorDinamic~Locatar~ locatari
+        +LocatarRepo()
+        +adauga(Locatar l)
+        +sterge(apartament)
+        +modifica(Locatar locatarNou)
+        +getAll() VectorDinamic~Locatar~
+    }
+
+    class LocatarService {
+        -LocatarRepo repo
+        -ValidatorLocatar val
+        +LocatarService(repo, val)
+        +adaugaLocatar(...)
+        +stergeLocatar(apartament)
+        +modificaLocatar(...)
+        +getAllLocatari() VectorDinamic~Locatar~
+        +cautaApartament(apartament) Locatar
+        +filtreazaDupaTip(tip) VectorDinamic~Locatar~
+        +filtreazaDupaSuprafata(suprafata) VectorDinamic~Locatar~
+        +sorteazaDupaNume() VectorDinamic~Locatar~
+        +sorteazaDupaSuprafata() VectorDinamic~Locatar~
+        +sorteazaDupaTipSiSuprafata() VectorDinamic~Locatar~
+    }
+
+    class ConsoleUI {
+        -LocatarService srv
+        +ConsoleUI(srv)
+        +start()
+        -printMenu()
+        -adaugaUI()
+        -afiseazaUI()
+        -stergeUI()
+        -modificaUI()
+        -cautaUI()
+        -filtreazaUI()
+        -sorteazaUI()
+        -afiseazaLista(locatari)
+    }
+
+    %% Relatiile dintre clase (Arhitectura Stratificata)
+    ConsoleUI --> LocatarService : foloseste
+    LocatarService --> LocatarRepo : foloseste
+    LocatarService --> ValidatorLocatar : foloseste
+    LocatarRepo *-- VectorDinamic : contine
+    VectorDinamic o-- Locatar : stocheaza

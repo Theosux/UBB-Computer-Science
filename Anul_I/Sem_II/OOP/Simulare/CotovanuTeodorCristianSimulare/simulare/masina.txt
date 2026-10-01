@@ -1,0 +1,10 @@
+1,Toyota,electrica,100
+2,Bmw,hibrida,200
+3,Audi,sport,300
+4,Opel,SUV,400
+5,M1,tip,100
+6,M2,SUV,50
+7,M3,sport,1000
+8,M4,tip,200
+9,M5,tip,500
+10,M6,alt tip,100

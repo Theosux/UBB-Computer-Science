@@ -1,0 +1,6 @@
+3,Hotel California,Eagles,rock
+4,Stayin Alive,Bee Gees,disco
+5,Yesterday,The Beatles,pop
+7,The Sound of Silence,Simon and Garfunkel,folk
+2,Tomorow,The Beatles,pop
+6,M5,U2,rock

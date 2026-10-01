@@ -1,0 +1,9 @@
+1,Bohemian Rhapsody,Queen,rock
+3,Hotel California,Eagles,rock
+5,Yesterday,The Beatles,pop
+7,The Sound of Silence,Simon and Garfunkel,folk
+9,Blowin in the Wind,Bob Dylan,folk
+10,Billie Jean,Michael Jackson,pop
+11,Yellow,Coldplay,pop
+12,Mr Tambourine Man,Bob Dylan,folk
+6,Titlu,Artist,rock

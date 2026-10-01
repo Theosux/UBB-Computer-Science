@@ -1,0 +1,6 @@
+Costul total al Arborelui Minim de Acoperire: 16
+Muchiile care formeaza arborele sunt:
+Nodul 1 -- Nodul 2
+Nodul 2 -- Nodul 3
+Nodul 2 -- Nodul 5
+Nodul 1 -- Nodul 4

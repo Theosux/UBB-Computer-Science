@@ -1,0 +1,11 @@
+1,Bohemian Rhapsody,Queen,9
+2,Rocky,Queen,10
+3,Don't Stop Me Now,Queen,8
+5,Mamma Mia,ABBA,7
+6,Hey Jude,The Beatles,9
+7,Let It Be,The Beatles,8
+8,Imagine,John Lennon,10
+9,Billie Jean,Michael Jackson,9
+10,Thriller,Michael Jackson,7
+11,Hotel California,Eagles,8
+12,Wonderwall,Oasis,6

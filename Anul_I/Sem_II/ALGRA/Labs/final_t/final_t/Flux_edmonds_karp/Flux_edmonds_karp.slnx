@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Flux_edmonds_karp/Flux_edmonds_karp.vcxproj" Id="b4c2fbbd-247f-4ca3-b637-0c2eef0d0942" />
+</Solution>
