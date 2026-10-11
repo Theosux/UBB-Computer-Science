@@ -1,14 +1,15 @@
+package domain;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class MessageTask extends Task {
-    private String message;
-    private String from;
-    private String to;
-    private LocalDateTime date;
+    private final String message;
+    private final String from;
+    private final String to;
+    private final LocalDateTime date;
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm");
 
-    //Constructor
     public MessageTask(String taskID, String description, String message, String from, String to, LocalDateTime date) {
         super(taskID, description);
         this.message = message;
@@ -19,11 +20,11 @@ public class MessageTask extends Task {
 
     @Override
     public void execute() {
-        System.out.println(message + "blabla" + date.format(DATE_TIME_FORMATTER));
+        System.out.println("Mesaj:" + message + " blabla" + " From:" + from + " To:" + to + " Data:" + date.format(DATE_TIME_FORMATTER));
     }
 
     @Override
     public String toString() {
-        return super.toString() + ' ' + message + " blabla " + date.format(DATE_TIME_FORMATTER);
+        return super.toString() + "Mesaj:" + message + " blabla" + " From:" + from + " To:" + to + " Data:" + date.format(DATE_TIME_FORMATTER);
     }
 }

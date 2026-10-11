@@ -1,3 +1,5 @@
+import domain.Task;
+
 import java.util.Arrays;
 
 public class AbstractContainer implements Container {
@@ -10,11 +12,15 @@ public class AbstractContainer implements Container {
     }
 
     @Override
+    public Task remove() {
+        return null;
+    }
+
+    @Override
     public void add(Task t){
         if(size == tasks.length) {
-            tasks = Arrays.copyOf(tasks, tasks.length*2);
+            tasks = Arrays.copyOf(tasks, tasks.length * 2);
         }
-
         tasks[size++] = t;
     }
 
@@ -27,4 +33,6 @@ public class AbstractContainer implements Container {
     public boolean empty() {
         return this.size == 0;
     }
+
+
 }
