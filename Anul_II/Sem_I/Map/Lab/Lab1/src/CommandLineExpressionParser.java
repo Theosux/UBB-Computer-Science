@@ -7,14 +7,14 @@ public class CommandLineExpressionParser implements ExpressionParser {
     public ComplexExpression parse(String[] args) {
         // avem nevoie de macar n1 op n2
         if (args.length < 3 || args.length % 2 == 0) {
-            throw new IllegalArgumentException("Numar gresit de argumente");
+            throw new IllegalArgumentException("nr gresit de argumente");
         }
 
         //acelasi operator
         Operation op = parseOperation(args[1]);
         for (int i = 3; i < args.length; i += 2) {
             if (!args[i].equals(args[1])) {
-                throw new IllegalArgumentException("Operatorii trebuie sa fie la fel");
+                throw new IllegalArgumentException("operatorii trebuie sa fie la fel");
             }
         }
 
@@ -48,14 +48,14 @@ public class CommandLineExpressionParser implements ExpressionParser {
             imaginar = text.substring(poz);
         }
 
-        // "i" singur inseamna 1*i
+        // "i" = 1*i
         if (imaginar.equals("") || imaginar.equals("+")) {
             imaginar = "1";
         } else if (imaginar.equals("-")) {
             imaginar = "-1";
         }
 
-        // Double.parseDouble arunca NumberFormatException daca textul nu e numar
+        // NumberFormatException daca nu e nr
         return new NumarComplex(Double.parseDouble(real), Double.parseDouble(imaginar));
     }
 
@@ -70,7 +70,7 @@ public class CommandLineExpressionParser implements ExpressionParser {
             case "/":
                 return Operation.DIVISION;
             default:
-                throw new IllegalArgumentException("Operator necunoscut: " + token);
+                throw new IllegalArgumentException("operator necunoscut: " + token);
         }
     }
 }

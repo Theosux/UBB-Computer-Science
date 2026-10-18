@@ -9,28 +9,22 @@ CommandLineExpressionParser  - verifica si parseaza argumentele din linia de com
 Main                         - porneste programul si afiseaza rezultatul
 
 Principii SOLID:
-SRP - fiecare clasa are o singura treaba: parserul citeste si verifica, factory-ul creeaza
-      expresia, expresia calculeaza, NumarComplex face calculele intre doua numere.
-OCP - pentru o operatie noua adaug o subclasa noua a lui ComplexExpression si un case in
-      factory, fara sa modific execute().
+SRP - fiecare clasa are o singura treaba: parserul citeste si verifica, factory-ul creeaza expresia, expresia calculeaza, NumarComplex face calculele intre doua numere.
+OCP - pentru o operatie noua adaug o subclasa noua a lui ComplexExpression si un case in factory, fara sa modific execute().
       UML: o noua clasa cu generalizare spre ComplexExpression.
-LSP - orice subclasa (AdditionExpression, DivisionExpression...) poate fi folosita in locul
-      lui ComplexExpression, execute() merge la fel.
+LSP - orice subclasa (AdditionExpression, DivisionExpression...) poate fi folosita in locul lui ComplexExpression, execute() merge la fel.
       UML: cele 4 generalizari spre ComplexExpression.
 ISP - interfata ExpressionParser are o singura metoda, parse().
-DIP - Main lucreaza cu interfata ExpressionParser si cu clasa abstracta ComplexExpression,
-      nu cu clasele concrete.
+DIP - Main lucreaza cu interfata ExpressionParser si cu clasa abstracta ComplexExpression, nu cu clasele concrete.
       UML: dependentele din Main merg spre ExpressionParser si ComplexExpression.
 
 Sabloane de proiectare:
-Template Method - ComplexExpression.execute() are pasii comuni (parcurge numerele), iar pasul
-                  care difera, executeOneOperation(), e abstract si scris in fiecare subclasa.
-                  UML: ComplexExpression abstracta (italic), metoda abstracta, 4 generalizari.
-Factory         - ExpressionFactory.createExpression() creeaza subclasa potrivita dupa operatie.
-                  UML: dependenta <<create>> spre ComplexExpression.
-Singleton       - ExpressionFactory are constructor privat si getInstance(), deci exista o
-                  singura instanta.
-                  UML: constructorul cu "-", instance si getInstance() subliniate (static).
+Template Method - ComplexExpression.execute() are pasii comuni (parcurge numerele), iar pasul care difera, executeOneOperation(), e abstract si scris in fiecare subclasa.
+                UML: ComplexExpression abstracta (italic), metoda abstracta, 4 generalizari.
+Factory       	- ExpressionFactory.createExpression() creeaza subclasa potrivita dupa operatie.
+                UML: dependenta <<create>> spre ComplexExpression.
+Singleton       - ExpressionFactory are constructor privat si getInstance(), deci exista o singura instanta.
+                UML: constructorul cu "-", instance si getInstance() subliniate (static).
 
 
 Exemple rulare:

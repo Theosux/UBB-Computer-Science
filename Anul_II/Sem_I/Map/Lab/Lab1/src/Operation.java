@@ -1,4 +1,4 @@
-// Operatiile posibile intr-o expresie.
+// toate op posibile
 public enum Operation {
     ADDITION,
     SUBTRACTION,

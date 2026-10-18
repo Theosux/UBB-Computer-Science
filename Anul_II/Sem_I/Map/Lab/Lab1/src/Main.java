@@ -7,7 +7,7 @@ public class Main {
         } catch (IllegalArgumentException e) {
             System.out.println("expresie invalida: " + e.getMessage());
         } catch (ArithmeticException e) {
-            System.out.println("Eroare: " + e.getMessage());
+            System.out.println("eroare: " + e.getMessage());
         }
     }
 }
