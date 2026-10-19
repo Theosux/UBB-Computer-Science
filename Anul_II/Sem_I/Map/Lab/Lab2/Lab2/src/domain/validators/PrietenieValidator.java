@@ -3,6 +3,7 @@ package domain.validators;
 import domain.Prietenie;
 
 public class PrietenieValidator implements Validator<Prietenie> {
+    // aici template-ul din strategie este prietenia
 
     @Override
     public void validate(Prietenie p) throws ValidationException {

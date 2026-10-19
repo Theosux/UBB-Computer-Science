@@ -8,6 +8,8 @@ import service.ServiceException;
 import java.util.Scanner;
 
 public class Consola {
+    // interfata cu utilizatorul
+
     private final ReteaService service;
     private final Scanner scanner = new Scanner(System.in);
 

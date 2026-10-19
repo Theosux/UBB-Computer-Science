@@ -12,9 +12,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public abstract class AbstractFileRepository<ID, E extends Entity<ID>> extends InMemoryRepository<ID, E>  {
+    // repo care pastreaza intr-un fisier text(o entitate per linie)
+    // template method: citirea si scrierea fisierului sunt scrise aici o singura data, clasele spun cum se transforma linia in entitate
+
     private final String fileName;
 
     public AbstractFileRepository(Validator<E> validator, String fileName) {
+        // creeaza repo
+
         super(validator);
         this.fileName = fileName;
         loadData();
@@ -25,6 +30,8 @@ public abstract class AbstractFileRepository<ID, E extends Entity<ID>> extends I
     protected abstract String createEntityAsString(E entity);
 
     private void loadData() {
+        // citeste liniile din fisier si salveaza entitatile in memorie
+
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = reader.readLine()) != null) {
@@ -40,6 +47,8 @@ public abstract class AbstractFileRepository<ID, E extends Entity<ID>> extends I
     }
 
     private void writeToFile() {
+        // rescrie tot fisierul cu entitatile din memorie
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
             for (E entity : findAll()) {
                 writer.write(createEntityAsString(entity));

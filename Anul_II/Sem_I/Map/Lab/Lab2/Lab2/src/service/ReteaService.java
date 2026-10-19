@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Set;
 
 public class ReteaService {
+    // logica aplicatiei
+
     private final Repository<Long, Utilizator> repoUtilizatori;
     private final Repository<Tuple<Long, Long>, Prietenie> repoPrietenii;
 
@@ -65,7 +67,7 @@ public class ReteaService {
         u2.getFriends().remove(u1);
     }
 
-    public Iterable<Utilizator> getUtilizatori() {
+    public Iterable<Utilizator> getUtilizatori() { // pt afisarea in UI prin repo
         return repoUtilizatori.findAll();
     }
 
@@ -74,6 +76,8 @@ public class ReteaService {
     }
 
     public List<Utilizator> ceaMaiSociabilaComunitate() {
+        // incercam fiecare utilizator ca start si gasim cel mai lung drum, comunitatea cu cel mai lung drum este cea mai sociabila
+
         List<Utilizator> celMaiBun = new ArrayList<>();
         int maxim = -1;
         for (List<Utilizator> comunitate : comunitati()) {
@@ -89,6 +93,8 @@ public class ReteaService {
     }
 
     private Long urmatorulId() {
+        // cel mai mare id + 1, pt adaugare
+
         long maxim = 0;
         for (Utilizator u : repoUtilizatori.findAll())
             if (u.getId() > maxim)
@@ -97,6 +103,8 @@ public class ReteaService {
     }
 
     private Utilizator gasesteUtilizator(Long id) {
+        // stergere, adaugare gaseste utilizator dupa id
+
         Utilizator u = repoUtilizatori.findOne(id);
         if (u == null)
             throw new ServiceException("Nu exista utilizatorul cu id-ul " + id + "!");
@@ -104,6 +112,9 @@ public class ReteaService {
     }
 
     private List<List<Utilizator>> comunitati() {
+        // pt fiecare utilizator nevizitat rulam dfs, cate dfs uri rulam = nr comunitati
+
+
         List<List<Utilizator>> rezultat = new ArrayList<>();
         Set<Utilizator> vizitati = new HashSet<>();
         for (Utilizator u : repoUtilizatori.findAll()) {
@@ -117,6 +128,8 @@ public class ReteaService {
     }
 
     private void dfs(Utilizator u, Set<Utilizator> vizitati, List<Utilizator> comunitate) {
+        // dfs: adauga in comunitate toti utilizatorii la care se ajunge din u
+
         vizitati.add(u);
         comunitate.add(u);
         for (Utilizator prieten : u.getFriends())
@@ -125,6 +138,8 @@ public class ReteaService {
     }
 
     private int celMaiLungDrum(Utilizator u, Set<Utilizator> vizitati) {
+        // backtracking: lungimea celui mai lung drum (fara utilizatori repetati) care porneste din u
+
         vizitati.add(u);
         int maxim = 0;
         for (Utilizator prieten : u.getFriends())

@@ -3,9 +3,12 @@ package domain.validators;
 import domain.Utilizator;
 
 public class UtilizatorValidator implements Validator<Utilizator> {
+    // aici template-ul din strategie devine utilizator
 
     @Override
     public void validate(Utilizator u) throws ValidationException {
+        // strangem erorile, aruncam o singura exceptie
+
         if (u == null)
             throw new ValidationException("Utilizatorul nu poate fi null!");
 

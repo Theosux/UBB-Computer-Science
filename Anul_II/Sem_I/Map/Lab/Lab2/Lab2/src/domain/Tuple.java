@@ -3,6 +3,8 @@ package domain;
 import java.util.Objects;
 
 public class Tuple<E1, E2> {
+    // clasa care defineste tuplu(de doua perechi) folosit ca ID pt prietenie
+
     private final E1 left;
     private final E2 right;
 
@@ -21,6 +23,8 @@ public class Tuple<E1, E2> {
 
     @Override
     public boolean equals(Object o) {
+        // doua perechi sunt egale daca au aceleasi elemente, in aceeasi ordine
+
         if (this == o) return true;
         if (!(o instanceof Tuple<?, ?> tuple)) return false;
         return Objects.equals(left, tuple.left) && Objects.equals(right, tuple.right);

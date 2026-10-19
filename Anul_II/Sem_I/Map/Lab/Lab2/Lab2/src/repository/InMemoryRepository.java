@@ -6,7 +6,12 @@ import domain.validators.Validator;
 import java.util.HashMap;
 import java.util.Map;
 
+// HashMap e implementarea, Map e interfata
+
 public class InMemoryRepository<ID, E extends Entity<ID>> implements Repository<ID, E> {
+    // Repo care pastreaza entitatile in memorie, in hashmap
+    // cheia e id - ul entitatea e valoarea
+
     private final Validator<E> validator;
     private final Map<ID, E> entities = new HashMap<>();
 
@@ -28,6 +33,8 @@ public class InMemoryRepository<ID, E extends Entity<ID>> implements Repository<
 
     @Override
     public E save(E entity) {
+        // return null = succes
+
         if (entity == null)
             throw new IllegalArgumentException("entitatea nu poate fi null!");
         validator.validate(entity);

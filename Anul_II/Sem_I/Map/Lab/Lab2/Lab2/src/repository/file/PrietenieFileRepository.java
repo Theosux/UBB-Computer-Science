@@ -5,6 +5,8 @@ import domain.Tuple;
 import domain.validators.Validator;
 
 public class PrietenieFileRepository extends AbstractFileRepository<Tuple<Long, Long>, Prietenie> {
+    // repo in fisier csv pt prietenii
+
     public PrietenieFileRepository(Validator<Prietenie> validator, String fileName) {
         super(validator, fileName);
     }
