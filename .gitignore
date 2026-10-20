@@ -24,6 +24,7 @@ GeneratedFiles/
 *.exe
 *.dll
 *.pyc
+*~
 *.suo
 *.user
 *.db
