@@ -13,3 +13,9 @@ eInMultime(E,[H|T]) :- E =\= H, eInMultime(E,T).
 intersectie([],_,[]).
 intersectie([H|T],L2,[H|R]) :- eInMultime(H,L2), intersectie(T,L2,R).
 intersectie([H|T],L2,R) :- \+ eInMultime(H,L2), intersectie(T,L2,R).
+
+% ?- intersectie([1,2,3,4],[3,4,5],R).   R = [3,4]
+% ?- intersectie([],[1,2],R).            R = []
+% ?- intersectie([1,2],[],R).            R = []
+% ?- intersectie([1,2,3],[4,5],R).       R = []
+% ?- intersectie([1,2,3],[3,2,1],R).     R = [1,2,3]
