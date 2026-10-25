@@ -1,6 +1,6 @@
 9. a)
 
-				| 0(vid)					, daca n = 0
+				| []						, daca n = 0
 				| 
 intersectie(l1...ln, p1...pm) = | l1 (+) intersectie (l2...ln, p1...pm)		, daca eInMultime(l1, p1...pm) = adevarat
 				|
@@ -17,6 +17,6 @@ eInMultime(e, p1...pm) = | adevarat			, daca e = p1
 
 b)
 
-		| 0(vid)			, daca m>n
+		| []				, daca m>n
 interval(m, n) =|
 		| m (+) interval(m+1, n)	, altfel
