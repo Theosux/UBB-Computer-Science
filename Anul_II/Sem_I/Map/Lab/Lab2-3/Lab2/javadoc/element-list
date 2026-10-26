@@ -2,6 +2,8 @@ unnamed package
 domain
 domain.validators
 repository
+repository.db
+repository.factory
 repository.file
 service
 ui
