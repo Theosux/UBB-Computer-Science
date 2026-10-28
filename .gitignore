@@ -32,6 +32,7 @@ GeneratedFiles/
 *.qtvscr
 *.class
 *.jar
+*.lst
 
 # Archives
 *.zip
@@ -73,6 +74,9 @@ Anul_II/Sem_I/Retele/Lab/tema1a/p2/client
 Anul_II/Sem_I/Retele/Lab/tema1a/p2/server
 Anul_II/Sem_I/Retele/Lab/tema1a/p8/client
 Anul_II/Sem_I/Retele/Lab/tema1a/p8/server
+Anul_II/Sem_I/Retele/Lab/tema1b/client
+Anul_II/Sem_I/Retele/Lab/tema1b/server
 
 # Seminar example code
 Anul_II/Sem_I/Map/Sem/Seminar3prof/
+**/Exemple lab clasa/

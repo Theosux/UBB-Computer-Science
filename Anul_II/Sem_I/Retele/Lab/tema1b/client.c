@@ -6,8 +6,9 @@
 #include <string.h>
 #include <arpa/inet.h>
 #include <unistd.h>
+#include <stdlib.h>
 
-int main() {
+int main(int argc, char *argv[]) {
         int c;
         struct sockaddr_in server;
         char sir1[50], sir2[50], sir3[50];
@@ -18,9 +19,9 @@ int main() {
                 return 1;
         }
         memset(&server, 0, sizeof(server));
-        server.sin_port = htons(1234);
+        server.sin_port = htons(atoi(argv[2]));		//port dat ca argument
         server.sin_family = AF_INET;
-        server.sin_addr.s_addr = inet_addr("127.0.0.1");
+        server.sin_addr.s_addr = inet_addr(argv[1]);	//ip dat ca argument
 
         if (connect(c, (struct sockaddr *) &server, sizeof(server)) < 0) {
                 printf("Eroare la conectarea la server\n");
