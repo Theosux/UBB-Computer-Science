@@ -2,6 +2,9 @@ package repository;
 
 import domain.Entity;
 import domain.validators.ValidationException;
+import util.Colectii;
+import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * The CRUD operations of the repo, interface
@@ -48,4 +51,21 @@ public interface Repository<ID, E extends Entity<ID>> {
      * @throws RepositoryException if the data cannot be persisted
      */
     E update(E entity);
+
+    /**
+     * Default method: every repo gets it without changes
+     *
+     * @param filter the search criterion (a predicate: entity to boolean), not null
+     * @return a new list with the entities that satisfy the criterion
+     * @throws IllegalArgumentException if filter is null
+     */
+    default List<E> findAll(Predicate<E> filter) {
+        // * cautarea primeste criteriul ca parametru, deci nu mai adaugam metode
+        if (filter == null)
+            throw new IllegalArgumentException("criteriul nu poate fi null!");
+        // * copiem toate entitatile intr-o lista noua, apoi scoatem cu removeIf pe cele care nu respecta criteriul
+        List<E> rezultat = Colectii.catreLista(findAll());
+        rezultat.removeIf(filter.negate());
+        return rezultat;
+    }
 }

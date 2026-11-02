@@ -161,3 +161,5 @@ CREATE TABLE Restaurante_Furnizori
 	id_furnizori INT FOREIGN KEY REFERENCES Furnizori(id)
 	CONSTRAINT pk_Restaurante_Furnizori PRIMARY KEY(id_restaurante, id_furnizori)
 );
+
+SELECT * FROM [dbo].[atractii]

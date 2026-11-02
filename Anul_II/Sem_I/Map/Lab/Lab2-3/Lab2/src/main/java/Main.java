@@ -3,6 +3,8 @@ import domain.Tuple;
 import domain.Utilizator;
 import domain.validators.PrietenieValidator;
 import domain.validators.UtilizatorValidator;
+import domain.validators.ValidationException;
+import domain.validators.Validator;
 import repository.Repository;
 import repository.RepositoryException;
 import repository.factory.RepositoryFactory;
@@ -26,15 +28,23 @@ public class Main {
      * @param args cmd args (we don't use them)
      */
     public static void main(String[] args) {
-        // * pornirea poate da erori pt config gresit, linie corupta, db neimplementat
+        // pornirea poate da erori pt config gresit, linie corupta, db neimplementat
         try {
-            // * config
+            // config
             Properties config = incarcaConfiguratie("/config.properties");
             RepositoryFactory factory = new RepositoryFactory(config);
 
-            // * main nu mai face new pe repo-uri concrete, le cere de la factory (tipul e doar interfata Repository)
+            // * regula noua de validare scrisa ca lambda, fara clasa noua si fara sa modificam UtilizatorValidator
+            Validator<Utilizator> lungimeNume = u -> {
+                if (u.getFirstName().length() > 20 || u.getLastName().length() > 20)
+                    throw new ValidationException("prenumele si numele au cel mult 20 de caractere;");
+            };
+            // * andThen: intai regulile vechi (care verifica si null), apoi lungimea
+            Validator<Utilizator> validatorUtilizatori = new UtilizatorValidator().andThen(lungimeNume);
+
+            // main nu mai face new pe repo-uri concrete, le cere de la factory (tipul e doar interfata Repository)
             Repository<Long, Utilizator> repoUtilizatori =
-                    factory.createUtilizatorRepository(new UtilizatorValidator());
+                    factory.createUtilizatorRepository(validatorUtilizatori); // *
             Repository<Tuple<Long, Long>, Prietenie> repoPrietenii =
                     factory.createPrietenieRepository(new PrietenieValidator());
 
@@ -54,7 +64,7 @@ public class Main {
      * @throws RepositoryException if the resources don't exist or cannot be read
      */
     private static Properties incarcaConfiguratie(String resursa) {
-        // * getResourceAsStream cauta fisierul in classpath, try-with-resources il inchide singur
+        // getResourceAsStream cauta fisierul in classpath, try-with-resources il inchide singur
 
         try (InputStream in = Main.class.getResourceAsStream(resursa)) {
             if (in == null)

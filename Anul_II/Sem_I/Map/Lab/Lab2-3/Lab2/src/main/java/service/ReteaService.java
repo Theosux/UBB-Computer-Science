@@ -4,11 +4,14 @@ import domain.Prietenie;
 import domain.Tuple;
 import domain.Utilizator;
 import repository.Repository;
+import util.Colectii;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Comparator;
+import java.util.function.Predicate;
 
 /**
  * The logic of the social network, the friend lists of the users are consistent with the friendships from the repo
@@ -32,15 +35,19 @@ public class ReteaService {
     }
 
     private void incarcaPrieteni() {
-        for (Prietenie p : repoPrietenii.findAll()) {
-            Utilizator u1 = repoUtilizatori.findOne(p.getIdUtilizator1());
-            Utilizator u2 = repoUtilizatori.findOne(p.getIdUtilizator2());
-            // * prietenie salvata cu un utilizator care nu exista: fisierele nu sunt consistente, oprim cu mesaj clar
-            if (u1 == null || u2 == null)
-                throw new ServiceException("Prietenia " + p + " are un utilizator care nu exista!");
-            u1.getFriends().add(u2);
-            u2.getFriends().add(u1);
-        }
+        // * Iterable.forEach in loc de for; this::leagaPrieteni = referinta la metoda acestui obiect (p -> leagaPrieteni(p))
+        repoPrietenii.findAll().forEach(this::leagaPrieteni);
+    }
+
+    private void leagaPrieteni(Prietenie p) {
+        // * corpul for-ului de la Lab3, mutat intr-o metoda
+        Utilizator u1 = repoUtilizatori.findOne(p.getIdUtilizator1());
+        Utilizator u2 = repoUtilizatori.findOne(p.getIdUtilizator2());
+        // prietenie salvata cu un utilizator care nu exista: fisierele nu sunt consistente, oprim cu mesaj clar
+        if (u1 == null || u2 == null)
+            throw new ServiceException("Prietenia " + p + " are un utilizator care nu exista!");
+        u1.getFriends().add(u2);
+        u2.getFriends().add(u1);
     }
 
     /**
@@ -117,6 +124,33 @@ public class ReteaService {
      */
     public Iterable<Utilizator> getUtilizatori() { // pt afisarea in UI prin repo
         return repoUtilizatori.findAll();
+    }
+
+    /**
+     * Searches the users with a criterion given by the caller
+     * @param criteriu the condition the users must satisfy
+     * @return the users that satisfy the criterion
+     */
+    public List<Utilizator> cautaUtilizatori(Predicate<Utilizator> criteriu) {
+        // * repo-ul filtreaza (findAll cu Predicate) si ne da o lista noua, noi doar o sortam
+        List<Utilizator> rezultat = repoUtilizatori.findAll(criteriu);
+        // * comparatorul e construit, nu scris de mana: intai dupa nume, la egalitate dupa prenume
+        rezultat.sort(Comparator.comparing(Utilizator::getLastName).thenComparing(Utilizator::getFirstName));
+        return rezultat;
+    }
+
+    /**
+     * @return all the users, the ones with more friends first
+     */
+    public List<Utilizator> utilizatoriDupaNrPrieteni() {
+        // * variabila intermediara: in sort(comparingInt(u -> ...).reversed()) compilatorul nu stie tipul lui u
+        Comparator<Utilizator> dupaNrPrieteni = Comparator.comparingInt(u -> u.getFriends().size());
+        // * findAll() e Iterable, care nu are sort; copiem intr-o lista noua si sortam lista
+        List<Utilizator> rezultat = Colectii.catreLista(repoUtilizatori.findAll());
+        rezultat.sort(dupaNrPrieteni.reversed()
+                .thenComparing(Utilizator::getLastName)
+                .thenComparing(Utilizator::getFirstName));
+        return rezultat;
     }
 
     /**

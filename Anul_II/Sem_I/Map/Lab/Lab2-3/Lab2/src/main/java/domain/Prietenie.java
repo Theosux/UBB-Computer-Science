@@ -9,7 +9,7 @@ import java.time.temporal.ChronoUnit;
  */
 public class Prietenie extends Entity<Tuple<Long, Long>> {
 
-    // * data de cand sunt prieteni, format ISO
+    // data de cand sunt prieteni, format ISO
     private final LocalDateTime dataPrieteniei;
 
     /**
@@ -38,7 +38,7 @@ public class Prietenie extends Entity<Tuple<Long, Long>> {
      * @param idUtilizator2 user2 id
      */
     public Prietenie(Long idUtilizator1, Long idUtilizator2) {
-        // * prietenie noua, data e momentul de acum
+        // prietenie noua, data e momentul de acum
         this(idUtilizator1, idUtilizator2, LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES));
     }
 

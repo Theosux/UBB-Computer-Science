@@ -59,7 +59,7 @@ public abstract class AbstractFileRepository<ID, E extends Entity<ID>> extends I
 
     private void loadData() {
         // citeste liniile din fisier si salveaza entitatile in memorie
-            // * fisier lipsa: repo gol, fisierul se creeaza la primul save (fara mesaj din repository)
+            // fisier lipsa: repo gol, fisierul se creeaza la primul save (fara mesaj din repository)
             if (!new File(fileName).exists())
                 return;
 
@@ -70,14 +70,14 @@ public abstract class AbstractFileRepository<ID, E extends Entity<ID>> extends I
                     lineNumber++;
                     if (line.isBlank())
                         continue;
-                    // * linie corupta: oprim incarcarea cu un mesaj clar (fisier, nr linie, motiv), cauza ramane in exceptie
+                    // linie corupta: oprim incarcarea cu un mesaj clar (fisier, nr linie, motiv), cauza ramane in exceptie
                     E result;
                     try {
                         result = super.save(extractEntity(line));
                     } catch (IllegalArgumentException | DateTimeParseException | ValidationException e) {
                         throw new RepositoryException(lineError(lineNumber, line, e.getMessage()), e);
                     }
-                    // * acelasi id de doua ori in fisier
+                    // acelasi id de doua ori in fisier
                     if (result != null)
                         throw new RepositoryException(lineError(lineNumber, line, "id-ul exista deja in fisier"));
                 }
@@ -87,7 +87,7 @@ public abstract class AbstractFileRepository<ID, E extends Entity<ID>> extends I
         }
 
     private String lineError(int lineNumber, String line, String reason) {
-        // * mesajul pt o linie corupta, de ex: data/utilizatori.txt, linia 3 "abc;Ion;Pop": ...
+        // mesajul pt o linie corupta, de ex: data/utilizatori.txt, linia 3 "abc;Ion;Pop": ...
 
         return fileName + ", linia " + lineNumber + " \"" + line + "\": " + reason;
     }
@@ -101,7 +101,7 @@ public abstract class AbstractFileRepository<ID, E extends Entity<ID>> extends I
                 writer.newLine();
             }
         } catch (IOException e) {
-            // * RepositoryException in loc de RuntimeException, cu IOException ca si cauza
+            // RepositoryException in loc de RuntimeException, cu IOException ca si cauza
             throw new RepositoryException("Eroare la scrierea fisierului " + fileName, e);
         }
     }

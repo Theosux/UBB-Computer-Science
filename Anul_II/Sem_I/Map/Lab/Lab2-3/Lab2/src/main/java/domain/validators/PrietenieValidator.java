@@ -25,7 +25,7 @@ public class PrietenieValidator implements Validator<Prietenie> {
             errors.append("id utilizator 2 invalid; ");
         if (id1 != null && id1.equals(id2))
             errors.append("un utilizator nu poate fi prieten cu el insusi; ");
-        // * prietenia contine data
+        // prietenia contine data
         if (p.getDataPrieteniei() == null)
             errors.append("data prieteniei nu exista; ");
 

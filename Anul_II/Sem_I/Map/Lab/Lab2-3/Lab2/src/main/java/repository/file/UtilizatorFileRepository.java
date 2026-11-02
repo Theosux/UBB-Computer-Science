@@ -26,9 +26,9 @@ public class UtilizatorFileRepository extends AbstractFileRepository<Long, Utili
     protected Utilizator extractEntity(String line) {
         // linia devine entitate (-1 pastreaza campurile goale de la final)
 
-        // * separator ;
+        // separator ;
         String[] fields = line.split(";", -1);
-        // * linie corupta
+        // linie corupta
         if (fields.length != 3)
             throw new IllegalArgumentException("linia trebuie sa aiba 3 campuri: id;prenume;nume");
         Utilizator u = new Utilizator(fields[1], fields[2]);

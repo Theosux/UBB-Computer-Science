@@ -33,7 +33,7 @@ public class PrietenieDbRepository implements Repository<Tuple<Long, Long>, Prie
      */
     @Override
     public Prietenie findOne(Tuple<Long, Long> id) {
-        throw new UnsupportedOperationException("findOne nu este implementat inca (laboratorul 4)");
+        throw new UnsupportedOperationException("findOne nu este implementat inca (laboratorul 5)");
     }
 
     /**
@@ -41,7 +41,7 @@ public class PrietenieDbRepository implements Repository<Tuple<Long, Long>, Prie
      */
     @Override
     public Iterable<Prietenie> findAll() {
-        throw new UnsupportedOperationException("findAll nu este implementat inca (laboratorul 4)");
+        throw new UnsupportedOperationException("findAll nu este implementat inca (laboratorul 5)");
     }
 
     /**
@@ -49,7 +49,7 @@ public class PrietenieDbRepository implements Repository<Tuple<Long, Long>, Prie
      */
     @Override
     public Prietenie save(Prietenie entity) {
-        throw new UnsupportedOperationException("save nu este implementat inca (laboratorul 4)");
+        throw new UnsupportedOperationException("save nu este implementat inca (laboratorul 5)");
     }
 
     /**
@@ -57,7 +57,7 @@ public class PrietenieDbRepository implements Repository<Tuple<Long, Long>, Prie
      */
     @Override
     public Prietenie delete(Tuple<Long, Long> id) {
-        throw new UnsupportedOperationException("delete nu este implementat inca (laboratorul 4)");
+        throw new UnsupportedOperationException("delete nu este implementat inca (laboratorul 5)");
     }
 
     /**
@@ -65,6 +65,6 @@ public class PrietenieDbRepository implements Repository<Tuple<Long, Long>, Prie
      */
     @Override
     public Prietenie update(Prietenie entity) {
-        throw new UnsupportedOperationException("update nu este implementat inca (laboratorul 4)");
+        throw new UnsupportedOperationException("update nu este implementat inca (laboratorul 5)");
     }
 }

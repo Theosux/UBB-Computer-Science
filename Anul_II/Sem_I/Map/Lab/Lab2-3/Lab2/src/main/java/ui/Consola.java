@@ -1,5 +1,6 @@
 package ui;
 
+import domain.CriteriiUtilizator;
 import domain.Utilizator;
 import domain.validators.ValidationException;
 import service.ReteaService;
@@ -7,6 +8,8 @@ import service.ServiceException;
 import repository.RepositoryException;
 
 import java.util.Scanner;
+import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * the console interface, menu, options, prints; the errors are caught here
@@ -54,6 +57,12 @@ public class Consola {
                     case "7":
                         System.out.println("Cea mai sociabila comunitate: " + service.ceaMaiSociabilaComunitate());
                         break;
+                    case "8":
+                        cautaUtilizatori();
+                        break;
+                    case "9":
+                        afiseazaDupaNrPrieteni();
+                        break;
                     case "0":
                         ruleaza = false;
                         break;
@@ -62,7 +71,7 @@ public class Consola {
                 }
             } catch (ValidationException | ServiceException e) {
                 System.out.println("Eroare: " + e.getMessage());
-            } catch (RepositoryException e) {   // * Prindem si din repo
+            } catch (RepositoryException e) {   // Prindem si din repo
                 System.out.println("Eroare la salvarea datelor: " + e.getMessage());
             }
             catch (NumberFormatException e) {
@@ -79,6 +88,8 @@ public class Consola {
         System.out.println("5. Afiseaza utilizatorii si prietenii lor");
         System.out.println("6. Numar de comunitati");
         System.out.println("7. Cea mai sociabila comunitate");
+        System.out.println("8. Cauta utilizatorii dupa nume");  // *
+        System.out.println("9. Utilizatorii dupa numarul de prieteni"); // *
         System.out.println("0. Iesire");
         System.out.print("Optiune: ");
     }
@@ -111,12 +122,40 @@ public class Consola {
     }
 
     private void afiseazaUtilizatori() {
-        for (Utilizator u : service.getUtilizatori())
-            System.out.println("  " + u + " | prieteni: " + u.getFriends());
+        // * Iterable.forEach cu o lambda in loc de for-each
+        service.getUtilizatori().forEach(u -> System.out.println("  " + u + " | prieteni: " + u.getFriends()));
     }
 
     private Long citesteId(String mesaj) {
         System.out.print(mesaj);
         return Long.parseLong(scanner.nextLine().trim());
+    }
+
+    private void cautaUtilizatori() {
+        // * criteriile vin din CriteriiUtilizator si se combina cu or, and, negate, Predicate.not
+        // * un criteriu nou = o lambda noua aici, fara metoda noua in repository
+        System.out.print("Nume: ");
+        String nume = scanner.nextLine().trim();
+        afiseaza("Cu numele " + nume + " sau prenumele care incepe cu " + nume, service.cautaUtilizatori(
+                CriteriiUtilizator.areNumele(nume).or(CriteriiUtilizator.prenumeleIncepeCu(nume))));
+        afiseaza("Cu numele " + nume + " si cel putin 2 prieteni", service.cautaUtilizatori(
+                CriteriiUtilizator.areNumele(nume).and(CriteriiUtilizator.areCelPutinPrieteni(2))));
+        afiseaza("Fara numele " + nume, service.cautaUtilizatori(
+                CriteriiUtilizator.areNumele(nume).negate()));
+        // * CriteriiUtilizator::faraPrieteni = referinta la o metoda statica; Predicate.not ii da tipul Predicate
+        afiseaza("Cu cel putin un prieten", service.cautaUtilizatori(
+                Predicate.not(CriteriiUtilizator::faraPrieteni)));
+    }
+
+    private void afiseazaDupaNrPrieteni() {
+        // * forEach primeste un Consumer: ce facem cu fiecare utilizator din lista sortata
+        service.utilizatoriDupaNrPrieteni()
+                .forEach(u -> System.out.println("  " + u + " - " + u.getFriends().size() + " prieteni"));
+    }
+
+    private void afiseaza(String titlu, List<Utilizator> utilizatori) {
+        System.out.println(titlu + ":");
+        // * System.out::println = referinta la metoda unui obiect anume (u -> System.out.println(u))
+        utilizatori.forEach(System.out::println);
     }
 }

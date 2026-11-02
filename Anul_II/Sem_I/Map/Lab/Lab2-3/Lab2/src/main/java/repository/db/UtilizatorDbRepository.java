@@ -32,7 +32,7 @@ public class UtilizatorDbRepository implements Repository<Long, Utilizator> {
      */
     @Override
     public Utilizator findOne(Long id) {
-        throw new UnsupportedOperationException("findOne nu este implementat inca (laboratorul 4)");
+        throw new UnsupportedOperationException("findOne nu este implementat inca (laboratorul 5)");
     }
 
     /**
@@ -40,7 +40,7 @@ public class UtilizatorDbRepository implements Repository<Long, Utilizator> {
      */
     @Override
     public Iterable<Utilizator> findAll() {
-        throw new UnsupportedOperationException("findAll nu este implementat inca (laboratorul 4)");
+        throw new UnsupportedOperationException("findAll nu este implementat inca (laboratorul 5)");
     }
 
     /**
@@ -48,7 +48,7 @@ public class UtilizatorDbRepository implements Repository<Long, Utilizator> {
      */
     @Override
     public Utilizator save(Utilizator entity) {
-        throw new UnsupportedOperationException("save nu este implementat inca (laboratorul 4)");
+        throw new UnsupportedOperationException("save nu este implementat inca (laboratorul 5)");
     }
 
     /**
@@ -56,7 +56,7 @@ public class UtilizatorDbRepository implements Repository<Long, Utilizator> {
      */
     @Override
     public Utilizator delete(Long id) {
-        throw new UnsupportedOperationException("delete nu este implementat inca (laboratorul 4)");
+        throw new UnsupportedOperationException("delete nu este implementat inca (laboratorul 5)");
     }
 
     /**
@@ -64,6 +64,6 @@ public class UtilizatorDbRepository implements Repository<Long, Utilizator> {
      */
     @Override
     public Utilizator update(Utilizator entity) {
-        throw new UnsupportedOperationException("update nu este implementat inca (laboratorul 4)");
+        throw new UnsupportedOperationException("update nu este implementat inca (laboratorul 5)");
     }
 }
