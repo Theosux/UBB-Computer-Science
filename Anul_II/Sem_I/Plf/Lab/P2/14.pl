@@ -43,7 +43,7 @@ predecesorListaEterogena([H|T], [H|R]) :- number(H), predecesorListaEterogena(T,
 
 
 % Teste a):
-% predecesorMain([1,9,3,6,0,0],R).   R = [1,9,3,5,9,9]
+% ?- predecesorMain([1,9,3,6,0,0],R).   R = [1,9,3,5,9,9]
 % ?- predecesorMain([2,3],R).           R = [2,2]
 % ?- predecesorMain([1,2,0],R).         R = [1,1,9]
 % ?- predecesorMain([4,0,9],R).         R = [4,0,8]
