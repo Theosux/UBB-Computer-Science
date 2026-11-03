@@ -1,0 +1,13 @@
+14. a)
+		       | c				, daca n = 0 
+inversare(l1..ln, c) = |
+		       | inversare(l2..ln, l1 (+) c)	, altfel
+
+
+		     | l1-1..ln				, daca l1 != 0
+predecesor(l1..ln) = |
+		     | l1 (+) predecesor(l2..ln)	, daca l1 = 0
+
+
+
+predecesorMain(l1..ln) = inversare(predecesor(inversare(l1..ln))
