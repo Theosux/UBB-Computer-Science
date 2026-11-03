@@ -4,10 +4,25 @@ inversare(l1..ln, c) = |
 		       | inversare(l2..ln, l1 (+) c)	, altfel
 
 
-		     | l1-1..ln				, daca l1 != 0
+		     | (l1-1) (+) l2..ln		, daca l1 != 0
 predecesor(l1..ln) = |
-		     | l1 (+) predecesor(l2..ln)	, daca l1 = 0
+		     | 9 (+) predecesor(l2..ln)		, daca l1 = 0
 
 
+		      | l2..ln				, daca l1 = 0 si n>=2
+eliminaZero(l1..ln) = |
+		      | l1..ln				, altfel
 
-predecesorMain(l1..ln) = inversare(predecesor(inversare(l1..ln))
+
+predecesorMain(l1..ln) = eliminaZero(inversare(predecesor(inversare(l1..ln,[])),[]))
+
+
+b)
+
+				   | []								, daca n = 0
+				   | 
+predecesorListaEterogena(l1..ln) = | predecesorMain(l1) (+) predecesorListaEterogena(l2..ln)	, daca l1 e lista
+				   |  
+				   | l1 (+) predecesorListaEterogena(l2..ln)			, daca l1 e numar
+
+
