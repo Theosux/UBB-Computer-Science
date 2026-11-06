@@ -24,5 +24,3 @@ b)
 predecesorListaEterogena(l1..ln) = | predecesorMain(l1) (+) predecesorListaEterogena(l2..ln)	, daca l1 e lista
 				   |  
 				   | l1 (+) predecesorListaEterogena(l2..ln)			, daca l1 e numar
-
-

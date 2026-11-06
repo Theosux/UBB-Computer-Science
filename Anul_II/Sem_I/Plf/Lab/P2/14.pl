@@ -31,15 +31,16 @@ predecesorMain(L, R) :- inversare(L, [], L2),
 
 % pentru b):
 
-% predecesorListaEterogena(L:list, R:list)
-% (i, o) - determinist
+% predecesorListaEterogena(L:list, R:list, N:variabila)
+% (i, o, o) - determinist
 % L - lista eterogena
 % R - lista in care fiecare sublista e inlocuita cu predecesorul ei
+% N - variabila in care dam count cate subliste gasim
 
-predecesorListaEterogena([], []).
-predecesorListaEterogena([H|T], [P|R]) :- is_list(H), predecesorMain(H, P),
-	predecesorListaEterogena(T, R).
-predecesorListaEterogena([H|T], [H|R]) :- number(H), predecesorListaEterogena(T, R).
+predecesorListaEterogena([], [], 0).
+predecesorListaEterogena([H|T], [P|R], N1) :- is_list(H), predecesorMain(H, P)
+	,predecesorListaEterogena(T, R, N), N1 is N+1.
+predecesorListaEterogena([H|T], [H|R], N) :- number(H), predecesorListaEterogena(T, R, N).
 
 
 % Teste a):
