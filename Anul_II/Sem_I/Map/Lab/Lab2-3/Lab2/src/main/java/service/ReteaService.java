@@ -4,7 +4,6 @@ import domain.Prietenie;
 import domain.Tuple;
 import domain.Utilizator;
 import repository.Repository;
-import util.Colectii;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -12,6 +11,10 @@ import java.util.List;
 import java.util.Set;
 import java.util.Comparator;
 import java.util.function.Predicate;
+import java.util.LinkedHashSet;
+import java.util.Optional;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * The logic of the social network, the friend lists of the users are consistent with the friendships from the repo
@@ -41,11 +44,12 @@ public class ReteaService {
 
     private void leagaPrieteni(Prietenie p) {
         // * corpul for-ului de la Lab3, mutat intr-o metoda
-        Utilizator u1 = repoUtilizatori.findOne(p.getIdUtilizator1());
-        Utilizator u2 = repoUtilizatori.findOne(p.getIdUtilizator2());
         // prietenie salvata cu un utilizator care nu exista: fisierele nu sunt consistente, oprim cu mesaj clar
-        if (u1 == null || u2 == null)
-            throw new ServiceException("Prietenia " + p + " are un utilizator care nu exista!");
+        // * Supplier: stie sa creeze exceptia, dar o creeaza doar daca utilizatorul lipseste
+        Supplier<ServiceException> eroare =
+                () -> new ServiceException("Prietenia " + p + " are un utilizator care nu exista!");
+        Utilizator u1 = cautaUtilizator(p.getIdUtilizator1()).orElseThrow(eroare); // *
+        Utilizator u2 = cautaUtilizator(p.getIdUtilizator2()).orElseThrow(eroare); // *
         u1.getFriends().add(u2);
         u2.getFriends().add(u1);
     }
@@ -76,10 +80,11 @@ public class ReteaService {
      */
     public Utilizator stergeUtilizator(Long id) {
         Utilizator u = gasesteUtilizator(id);
-        for (Utilizator prieten : u.getFriends()) {
+        // * forEach in loc de for: pentru fiecare prieten, il scoatem pe u din lista lui si stergem prietenia
+        u.getFriends().forEach(prieten -> {
             prieten.getFriends().remove(u);
             repoPrietenii.delete(new Prietenie(id, prieten.getId()).getId());
-        }
+        });
         return repoUtilizatori.delete(id);
     }
 
@@ -113,8 +118,8 @@ public class ReteaService {
         Prietenie p = new Prietenie(id1, id2);
         if (repoPrietenii.delete(p.getId()) == null)
             throw new ServiceException("Nu exista prietenie intre " + id1 + " si " + id2 + "!");
-        Utilizator u1 = repoUtilizatori.findOne(id1);
-        Utilizator u2 = repoUtilizatori.findOne(id2);
+        Utilizator u1 = gasesteUtilizator(id1); // *
+        Utilizator u2 = gasesteUtilizator(id2); // *
         u1.getFriends().remove(u2);
         u2.getFriends().remove(u1);
     }
@@ -129,14 +134,14 @@ public class ReteaService {
     /**
      * Searches the users with a criterion given by the caller
      * @param criteriu the condition the users must satisfy
-     * @return the users that satisfy the criterion
+     * @return the users that satisfy the criterion, sorted by last name, then by first name
      */
     public List<Utilizator> cautaUtilizatori(Predicate<Utilizator> criteriu) {
-        // * repo-ul filtreaza (findAll cu Predicate) si ne da o lista noua, noi doar o sortam
-        List<Utilizator> rezultat = repoUtilizatori.findAll(criteriu);
+        // * repo-ul filtreaza (findAll cu Predicate), noi sortam rezultatul cu un stream
         // * comparatorul e construit, nu scris de mana: intai dupa nume, la egalitate dupa prenume
-        rezultat.sort(Comparator.comparing(Utilizator::getLastName).thenComparing(Utilizator::getFirstName));
-        return rezultat;
+        return repoUtilizatori.findAll(criteriu).stream()
+                .sorted(Comparator.comparing(Utilizator::getLastName).thenComparing(Utilizator::getFirstName))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -166,68 +171,89 @@ public class ReteaService {
     public List<Utilizator> ceaMaiSociabilaComunitate() {
         // incercam fiecare utilizator ca start si gasim cel mai lung drum, comunitatea cu cel mai lung drum este cea mai sociabila
 
-        List<Utilizator> celMaiBun = new ArrayList<>();
-        int maxim = -1;
-        for (List<Utilizator> comunitate : comunitati()) {
-            int drum = 0;
-            for (Utilizator start : comunitate)
-                drum = Math.max(drum, celMaiLungDrum(start, new HashSet<>()));
-            if (drum > maxim) {
-                maxim = drum;
-                celMaiBun = comunitate;
-            }
-        }
-        return celMaiBun;
+        // * max intoarce Optional (nu exista maxim daca nu exista comunitati); la egalitate ramane prima, ca la Lab3
+        // * map(ArrayList::new) = referinta la constructor: Set-ul devine lista; orElse = lista goala daca nu sunt utilizatori
+        return comunitati().stream()
+                .max(Comparator.comparingInt(this::celMaiLungDrumDin))
+                .map(ArrayList::new)
+                .orElse(new ArrayList<>());
     }
 
     private Long urmatorulId() {
         // cel mai mare id + 1, pt adaugare
 
-        long maxim = 0;
-        for (Utilizator u : repoUtilizatori.findAll())
-            if (u.getId() > maxim)
-                maxim = u.getId();
-        return maxim + 1;
+        // * map: utilizator -> id; reduce: combina id-urile doua cate doua cu Long::max, pornind de la 0
+        return repoUtilizatori.stream()
+                .map(Utilizator::getId)
+                .reduce(0L, Long::max) + 1;
+    }
+
+    /**
+     * Searches a user by id; the result may be missing, so it is an Optional
+     *
+     * @param id the id of the user, not null
+     * @return an Optional with the user, Optional.empty() if there is no user with that id
+     * @throws IllegalArgumentException if id is null
+     */
+    private Optional<Utilizator> cautaUtilizator(Long id) {
+        // * repo-ul intoarce null daca nu exista, Optional.ofNullable il transforma in Optional.empty()
+        return Optional.ofNullable(repoUtilizatori.findOne(id));
     }
 
     private Utilizator gasesteUtilizator(Long id) {
         // stergere, adaugare gaseste utilizator dupa id
 
-        Utilizator u = repoUtilizatori.findOne(id);
-        if (u == null)
-            throw new ServiceException("Nu exista utilizatorul cu id-ul " + id + "!");
-        return u;
+        // * orElseThrow: utilizatorul, sau exceptia creata de lambda daca Optional-ul e gol
+        return cautaUtilizator(id)
+                .orElseThrow(() -> new ServiceException("Nu exista utilizatorul cu id-ul " + id + "!"));
     }
 
-    private List<List<Utilizator>> comunitati() {
-        // pt fiecare utilizator nevizitat rulam dfs, cate dfs uri rulam = nr comunitati
-
-
-        List<List<Utilizator>> rezultat = new ArrayList<>();
-        Set<Utilizator> vizitati = new HashSet<>();
-        for (Utilizator u : repoUtilizatori.findAll()) {
-            if (!vizitati.contains(u)) {
-                List<Utilizator> comunitate = new ArrayList<>();
-                dfs(u, vizitati, comunitate);
-                rezultat.add(comunitate);
-            }
-        }
-        return rezultat;
+    private List<Set<Utilizator>> comunitati() {
+        // * pt fiecare utilizator calculam comunitatea lui; utilizatorii din aceeasi comunitate dau acelasi Set
+        // * distinct pastreaza o singura data fiecare comunitate, deci cate raman = nr comunitati
+        return repoUtilizatori.stream()
+                .map(this::comunitateaLui)
+                .distinct()
+                .collect(Collectors.toList());
     }
 
-    private void dfs(Utilizator u, Set<Utilizator> vizitati, List<Utilizator> comunitate) {
+    /**
+     * Finds the community of a user: all the users that can be reached from him through friendships
+     *
+     * @param u the user
+     * @return the users of the community, in the order of the dfs (u is the first one)
+     */
+    private Set<Utilizator> comunitateaLui(Utilizator u) {
+        // * LinkedHashSet: retine ordinea in care dfs-ul adauga utilizatorii, ca lista de la Lab3
+        Set<Utilizator> comunitate = new LinkedHashSet<>();
+        dfs(u, comunitate);
+        return comunitate;
+    }
+
+    private void dfs(Utilizator u, Set<Utilizator> comunitate) {
         // dfs: adauga in comunitate toti utilizatorii la care se ajunge din u
-
-        vizitati.add(u);
+        // * comunitatea e si multimea celor vizitati
         comunitate.add(u);
-        for (Utilizator prieten : u.getFriends())
-            if (!vizitati.contains(prieten))
-                dfs(prieten, vizitati, comunitate);
+        // * filter doar citeste comunitatea; forEach o modifica, prin dfs (efectul secundar e in forEach, nu in filter)
+        u.getFriends().stream()
+                .filter(prieten -> !comunitate.contains(prieten))
+                .forEach(prieten -> dfs(prieten, comunitate));
+    }
+
+    /**
+     * @param comunitate the users of a community
+     * @return the length of the longest path (without repeated users) inside the community
+     */
+    private int celMaiLungDrumDin(Set<Utilizator> comunitate) {
+        // * fiecare utilizator e incercat ca start (map), apoi pastram maximul (reduce)
+        return comunitate.stream()
+                .map(start -> celMaiLungDrum(start, new HashSet<>()))
+                .reduce(0, Integer::max);
     }
 
     private int celMaiLungDrum(Utilizator u, Set<Utilizator> vizitati) {
         // backtracking: lungimea celui mai lung drum (fara utilizatori repetati) care porneste din u
-
+        // * ramane cu for (exceptie justificata in readme): vizitati se modifica si se reface la fiecare pas
         vizitati.add(u);
         int maxim = 0;
         for (Utilizator prieten : u.getFriends())

@@ -2,9 +2,11 @@ package repository;
 
 import domain.Entity;
 import domain.validators.ValidationException;
-import util.Colectii;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * The CRUD operations of the repo, interface
@@ -63,9 +65,20 @@ public interface Repository<ID, E extends Entity<ID>> {
         // * cautarea primeste criteriul ca parametru, deci nu mai adaugam metode
         if (filter == null)
             throw new IllegalArgumentException("criteriul nu poate fi null!");
-        // * copiem toate entitatile intr-o lista noua, apoi scoatem cu removeIf pe cele care nu respecta criteriul
-        List<E> rezultat = Colectii.catreLista(findAll());
-        rezultat.removeIf(filter.negate());
-        return rezultat;
+        // * filter pastreaza entitatile care respecta criteriul, collect le strange intr-o lista noua
+        return stream()
+                .filter(filter)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Default method: every repo gets it without changes
+     * Iterable has no stream() method, so the stream is built from the spliterator of findAll()
+     *
+     * @return a new sequential stream over all the entities
+     */
+    default Stream<E> stream() {
+        // * StreamSupport scris o singura data
+        return StreamSupport.stream(findAll().spliterator(), false);
     }
 }

@@ -60,9 +60,6 @@ public class Consola {
                     case "8":
                         cautaUtilizatori();
                         break;
-                    case "9":
-                        afiseazaDupaNrPrieteni();
-                        break;
                     case "0":
                         ruleaza = false;
                         break;
@@ -89,7 +86,6 @@ public class Consola {
         System.out.println("6. Numar de comunitati");
         System.out.println("7. Cea mai sociabila comunitate");
         System.out.println("8. Cauta utilizatorii dupa nume");  // *
-        System.out.println("9. Utilizatorii dupa numarul de prieteni"); // *
         System.out.println("0. Iesire");
         System.out.print("Optiune: ");
     }
@@ -145,12 +141,6 @@ public class Consola {
         // * CriteriiUtilizator::faraPrieteni = referinta la o metoda statica; Predicate.not ii da tipul Predicate
         afiseaza("Cu cel putin un prieten", service.cautaUtilizatori(
                 Predicate.not(CriteriiUtilizator::faraPrieteni)));
-    }
-
-    private void afiseazaDupaNrPrieteni() {
-        // * forEach primeste un Consumer: ce facem cu fiecare utilizator din lista sortata
-        service.utilizatoriDupaNrPrieteni()
-                .forEach(u -> System.out.println("  " + u + " - " + u.getFriends().size() + " prieteni"));
     }
 
     private void afiseaza(String titlu, List<Utilizator> utilizatori) {
