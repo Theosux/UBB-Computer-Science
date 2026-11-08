@@ -145,20 +145,6 @@ public class ReteaService {
     }
 
     /**
-     * @return all the users, the ones with more friends first
-     */
-    public List<Utilizator> utilizatoriDupaNrPrieteni() {
-        // * variabila intermediara: in sort(comparingInt(u -> ...).reversed()) compilatorul nu stie tipul lui u
-        Comparator<Utilizator> dupaNrPrieteni = Comparator.comparingInt(u -> u.getFriends().size());
-        // * findAll() e Iterable, care nu are sort; copiem intr-o lista noua si sortam lista
-        List<Utilizator> rezultat = Colectii.catreLista(repoUtilizatori.findAll());
-        rezultat.sort(dupaNrPrieteni.reversed()
-                .thenComparing(Utilizator::getLastName)
-                .thenComparing(Utilizator::getFirstName));
-        return rezultat;
-    }
-
-    /**
      * @return nr of communities
      */
     public int numarComunitati() {

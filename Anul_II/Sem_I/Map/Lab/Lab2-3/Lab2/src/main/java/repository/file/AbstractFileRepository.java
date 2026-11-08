@@ -7,7 +7,6 @@ import repository.InMemoryRepository;
 import repository.RepositoryException;
 
 import java.io.UncheckedIOException;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Files;
@@ -62,7 +61,7 @@ public abstract class AbstractFileRepository<ID, E extends Entity<ID>> extends I
 
     private void loadData() {
         // citeste liniile din fisier si salveaza entitatile in memorie
-            // fisier lipsa: repo gol, fisierul se creeaza la primul save (fara mesaj din repository)
+        // fisier lipsa: repo gol, fisierul se creeaza la primul save (fara mesaj din repository)
         Path path = Path.of(fileName); // *
         if (!Files.exists(path)) // *
             return;
@@ -73,13 +72,13 @@ public abstract class AbstractFileRepository<ID, E extends Entity<ID>> extends I
             lines = stream.collect(Collectors.toList());
         } catch (IOException | UncheckedIOException e) {
             // * UncheckedIOException = IOException aruncata in timpul parcurgerii stream-ului, impachetata de Java
-                throw new RepositoryException("Eroare la citirea fisierului " + fileName, e);
-            }
+            throw new RepositoryException("Eroare la citirea fisierului " + fileName, e);
+        }
         // * parcurgem indicii 0..n-1 ca sa stim numarul liniei (indice + 1)
         IntStream.range(0, lines.size())
                 .filter(i -> !lines.get(i).isBlank())
                 .forEach(i -> loadLine(i + 1, lines.get(i)));
-        }
+    }
 
     /**
      * Saves in memory the entity described by a line of the file
