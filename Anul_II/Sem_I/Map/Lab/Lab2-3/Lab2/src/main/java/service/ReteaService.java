@@ -239,7 +239,7 @@ public class ReteaService {
 
     private int celMaiLungDrum(Utilizator u, Set<Utilizator> vizitati) {
         // backtracking: lungimea celui mai lung drum (fara utilizatori repetati) care porneste din u
-        // * ramane cu for (exceptie justificata in readme): vizitati se modifica si se reface la fiecare pas
+        // * ramane cu for: vizitati se modifica si se reface la fiecare pas
         vizitati.add(u);
         int maxim = 0;
         for (Utilizator prieten : u.getFriends())

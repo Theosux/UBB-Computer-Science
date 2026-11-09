@@ -4,6 +4,5 @@
 6;Dana;Popescu
 7;Teodor;Cotovanu
 8;John;Doe
-9;Jane;Doe
 10;ABC;CBA
 11;Teodor;Cotovanu
