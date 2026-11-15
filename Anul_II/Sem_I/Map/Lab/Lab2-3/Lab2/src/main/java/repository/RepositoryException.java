@@ -1,7 +1,8 @@
 package repository;
 
 /**
- * Unchecked exceptions for persistence errors (corrupt files, unreadable ones)
+ * Unchecked exceptions for persistence errors (corrupt files, unreadable ones, database errors)
+ * A SQLException (checked) is wrapped as the cause, so the Repository interface doesn't depend on JDBC
  */
 public class RepositoryException extends RuntimeException {
 

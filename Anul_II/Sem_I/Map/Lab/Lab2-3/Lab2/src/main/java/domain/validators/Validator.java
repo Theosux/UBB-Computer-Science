@@ -6,7 +6,7 @@ package domain.validators;
  * @param <T> the type of the entity to validate
  */
 
-// * o singura metoda abstracta = interfata functionala
+// o singura metoda abstracta = interfata functionala
 @FunctionalInterface
 public interface Validator<T> {
 
@@ -27,10 +27,10 @@ public interface Validator<T> {
      * @throws IllegalArgumentException if other is null
      */
     default Validator<T> andThen(Validator<T> other) {
-        // * metoda default: are implementare, interfata va fi functionala
+        // metoda default: are implementare, interfata va fi functionala
         if (other == null)
             throw new IllegalArgumentException("validatorul urmator nu poate fi null!");
-        // * intoarcem un validator nou, scris ca lambda
+        // intoarcem un validator nou, scris ca lambda
         return entity -> {
             validate(entity);
             other.validate(entity);

@@ -7,7 +7,7 @@ import java.util.function.Predicate;
  * Every method returns a Predicate, so the criteria can be combined with and, or, negate, Predicate.not
  */
 public class CriteriiUtilizator {
-    // * clasa utilitara, doar metode statice, nu se creeaza obiecte
+    // clasa utilitara, doar metode statice, nu se creeaza obiecte
     private CriteriiUtilizator() {
     }
 
@@ -16,7 +16,7 @@ public class CriteriiUtilizator {
      * @return a criterion that is true for the users whose first name starts with prefix
      */
     public static Predicate<Utilizator> prenumeleIncepeCu(String prefix) {
-        // * lambda retine valoarea lui prefix (closure), chiar daca metoda s-a terminat
+        // lambda retine valoarea lui prefix (closure), chiar daca metoda s-a terminat
         return u -> u.getFirstName().startsWith(prefix);
     }
 

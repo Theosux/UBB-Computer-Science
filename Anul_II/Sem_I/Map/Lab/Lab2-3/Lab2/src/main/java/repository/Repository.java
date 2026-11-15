@@ -20,11 +20,13 @@ public interface Repository<ID, E extends Entity<ID>> {
      * @param id entity that must be returned, not null
      * @return the entity with that id, null if it doesn't exist
      * @throws IllegalArgumentException if id is null
+     * @throws RepositoryException if the data cannot be read
      */
     E findOne(ID id);
 
     /**
      * @return all the entities
+     * @throws RepositoryException if the data cannot be read
      */
     Iterable<E> findAll();
 
@@ -62,10 +64,10 @@ public interface Repository<ID, E extends Entity<ID>> {
      * @throws IllegalArgumentException if filter is null
      */
     default List<E> findAll(Predicate<E> filter) {
-        // * cautarea primeste criteriul ca parametru, deci nu mai adaugam metode
+        // cautarea primeste criteriul ca parametru, deci nu mai adaugam metode
         if (filter == null)
             throw new IllegalArgumentException("criteriul nu poate fi null!");
-        // * filter pastreaza entitatile care respecta criteriul, collect le strange intr-o lista noua
+        // filter pastreaza entitatile care respecta criteriul, collect le strange intr-o lista noua
         return stream()
                 .filter(filter)
                 .collect(Collectors.toList());
@@ -78,7 +80,7 @@ public interface Repository<ID, E extends Entity<ID>> {
      * @return a new sequential stream over all the entities
      */
     default Stream<E> stream() {
-        // * StreamSupport scris o singura data
+        // StreamSupport scris o singura data
         return StreamSupport.stream(findAll().spliterator(), false);
     }
 }

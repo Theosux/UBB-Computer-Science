@@ -7,6 +7,7 @@ import domain.validators.Validator;
 import repository.InMemoryRepository;
 import repository.Repository;
 import repository.RepositoryException;
+import repository.UtilizatorInMemoryRepository;
 import repository.db.PrietenieDbRepository;
 import repository.db.UtilizatorDbRepository;
 import repository.file.PrietenieFileRepository;
@@ -24,7 +25,7 @@ public class RepositoryFactory {
     // singurul loc unde se face new pe repouri(simple factory)
 
     private final Properties config;
-    // * fiecarui tip de persistenta ii corespunde o functie: primeste validatorul, intoarce repo-ul
+    // fiecarui tip de persistenta ii corespunde o functie: primeste validatorul, intoarce repo-ul
     private final Map<RepositoryType, Function<Validator<Utilizator>, Repository<Long, Utilizator>>> creatoriUtilizatori;
     private final Map<RepositoryType, Function<Validator<Prietenie>, Repository<Tuple<Long, Long>, Prietenie>>> creatoriPrietenii;
 
@@ -33,10 +34,11 @@ public class RepositoryFactory {
      */
     public RepositoryFactory(Properties config) {
         this.config = config;
-        // * InMemoryRepository::new = referinta la constructor, inseamna v -> new InMemoryRepository<>(v)
-        // * lambda-urile doar descriu cum se creeaza repo-ul; fisierul se citeste abia la apply (lazy)
+        // InMemoryRepository::new = referinta la constructor, inseamna v -> new InMemoryRepository<>(v)
+        // lambda-urile doar descriu cum se creeaza repo-ul; fisierul se citeste abia la apply (lazy)
         this.creatoriUtilizatori = Map.of(
-                RepositoryType.MEMORY, InMemoryRepository::new,
+                // * utilizatorii au repo propriu in memorie, care genereaza id-ul
+                RepositoryType.MEMORY, UtilizatorInMemoryRepository::new,
                 RepositoryType.FILE, v -> new UtilizatorFileRepository(v, getProperty("file.utilizatori")),
                 RepositoryType.DATABASE, v -> new UtilizatorDbRepository(v, getProperty("db.url"),
                         getProperty("db.user"), getProperty("db.password")));
@@ -53,10 +55,10 @@ public class RepositoryFactory {
      * @throws RepositoryException if a key is missing, repository.type is wrong, or the file cannot be loaded
      */
     public Repository<Long, Utilizator> createUtilizatorRepository(Validator<Utilizator> validator) {
-        // * in loc de switch: luam din map functia tipului ales si o aplicam pe validator
+        // in loc de switch: luam din map functia tipului ales si o aplicam pe validator
         RepositoryType type = getType();
         Function<Validator<Utilizator>, Repository<Long, Utilizator>> creator = creatoriUtilizatori.get(type);
-        // * get intoarce null daca tipul e in enum, dar nu are functie in map (rolul default-ului din switch)
+        // get intoarce null daca tipul e in enum, dar nu are functie in map (rolul default-ului din switch)
         if (creator == null)
             throw new RepositoryException("Tip de persistenta netratat: " + type);
         return creator.apply(validator);
@@ -70,7 +72,7 @@ public class RepositoryFactory {
     public Repository<Tuple<Long, Long>, Prietenie> createPrietenieRepository(Validator<Prietenie> validator) {
         // acelasi repository.type ca la utilizatori, deci aceeasi persistenta pt amandoua
 
-        // * la fel ca la utilizatori, cu map-ul pentru prietenii
+        // la fel ca la utilizatori, cu map-ul pentru prietenii
         RepositoryType type = getType();
 
         Function<Validator<Prietenie>, Repository<Tuple<Long, Long>, Prietenie>> creator = creatoriPrietenii.get(type);

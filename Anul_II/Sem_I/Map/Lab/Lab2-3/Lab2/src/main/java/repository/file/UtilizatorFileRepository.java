@@ -46,4 +46,15 @@ public class UtilizatorFileRepository extends AbstractFileRepository<Long, Utili
 
         return u.getId() + ";" + u.getFirstName() + ";" + u.getLastName();
     }
+
+    /**
+     * @return the biggest id + 1, 1 if there are no users
+     */
+    @Override
+    protected Long genereazaId() {
+        // * ca la UtilizatorInMemoryRepository: id-ul il genereaza stocarea, nu service-ul
+        return stream()
+                .map(Utilizator::getId)
+                .reduce(0L, Long::max) + 1;
+    }
 }

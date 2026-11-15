@@ -28,30 +28,32 @@ public class Main {
      * @param args cmd args (we don't use them)
      */
     public static void main(String[] args) {
-        // pornirea poate da erori pt config gresit, linie corupta, db neimplementat
+        // * pornirea poate da erori pt config gresit, linie corupta, baza de date oprita
         try {
             // config
             Properties config = incarcaConfiguratie("/config.properties");
             RepositoryFactory factory = new RepositoryFactory(config);
 
-            // * regula noua de validare scrisa ca lambda, fara clasa noua si fara sa modificam UtilizatorValidator
+            // regula noua de validare scrisa ca lambda, fara clasa noua si fara sa modificam UtilizatorValidator
             Validator<Utilizator> lungimeNume = u -> {
-                if (u.getFirstName().length() > 20 || u.getLastName().length() > 20)
-                    throw new ValidationException("prenumele si numele au cel mult 20 de caractere;");
+                // * 50, nu 20: la demo trebuie sa incapa numele cu '); DROP TABLE users; --
+                if (u.getFirstName().length() > 50 || u.getLastName().length() > 50)
+                    throw new ValidationException("prenumele si numele au cel mult 50 de caractere;");
             };
-            // * andThen: intai regulile vechi (care verifica si null), apoi lungimea
+            // andThen: intai regulile vechi (care verifica si null), apoi lungimea
             Validator<Utilizator> validatorUtilizatori = new UtilizatorValidator().andThen(lungimeNume);
 
             // main nu mai face new pe repo-uri concrete, le cere de la factory (tipul e doar interfata Repository)
             Repository<Long, Utilizator> repoUtilizatori =
-                    factory.createUtilizatorRepository(validatorUtilizatori); // *
+                    factory.createUtilizatorRepository(validatorUtilizatori);
             Repository<Tuple<Long, Long>, Prietenie> repoPrietenii =
                     factory.createPrietenieRepository(new PrietenieValidator());
 
             ReteaService service = new ReteaService(repoUtilizatori, repoPrietenii);
             Consola consola = new Consola(service);
             consola.run();
-        } catch (RepositoryException | ServiceException | UnsupportedOperationException e) {
+        } catch (RepositoryException | ServiceException e) {
+            // * fara UnsupportedOperationException: repo-urile DB sunt implementate, nu mai arunca
             System.out.println("Aplicatia nu poate porni: " + e.getMessage());
         }
     }

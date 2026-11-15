@@ -69,7 +69,8 @@ public class Consola {
             } catch (ValidationException | ServiceException e) {
                 System.out.println("Eroare: " + e.getMessage());
             } catch (RepositoryException e) {   // Prindem si din repo
-                System.out.println("Eroare la salvarea datelor: " + e.getMessage());
+                // * mesajul spune ce s-a intamplat (ex: baza de date oprita, constrangere incalcata), fara stack trace
+                System.out.println("Eroare la stocarea datelor: " + e.getMessage());
             }
             catch (NumberFormatException e) {
                 System.out.println("Eroare: id-ul trebuie sa fie un numar!");
@@ -85,7 +86,7 @@ public class Consola {
         System.out.println("5. Afiseaza utilizatorii si prietenii lor");
         System.out.println("6. Numar de comunitati");
         System.out.println("7. Cea mai sociabila comunitate");
-        System.out.println("8. Cauta utilizatorii dupa nume");  // *
+        System.out.println("8. Cauta utilizatorii dupa nume");
         System.out.println("0. Iesire");
         System.out.print("Optiune: ");
     }
@@ -118,7 +119,7 @@ public class Consola {
     }
 
     private void afiseazaUtilizatori() {
-        // * Iterable.forEach cu o lambda in loc de for-each
+        // Iterable.forEach cu o lambda in loc de for-each
         service.getUtilizatori().forEach(u -> System.out.println("  " + u + " | prieteni: " + u.getFriends()));
     }
 
@@ -128,8 +129,8 @@ public class Consola {
     }
 
     private void cautaUtilizatori() {
-        // * criteriile vin din CriteriiUtilizator si se combina cu or, and, negate, Predicate.not
-        // * un criteriu nou = o lambda noua aici, fara metoda noua in repository
+        // criteriile vin din CriteriiUtilizator si se combina cu or, and, negate, Predicate.not
+        // un criteriu nou = o lambda noua aici, fara metoda noua in repository
         System.out.print("Nume: ");
         String nume = scanner.nextLine().trim();
         afiseaza("Cu numele " + nume + " sau prenumele care incepe cu " + nume, service.cautaUtilizatori(
@@ -138,14 +139,14 @@ public class Consola {
                 CriteriiUtilizator.areNumele(nume).and(CriteriiUtilizator.areCelPutinPrieteni(2))));
         afiseaza("Fara numele " + nume, service.cautaUtilizatori(
                 CriteriiUtilizator.areNumele(nume).negate()));
-        // * CriteriiUtilizator::faraPrieteni = referinta la o metoda statica; Predicate.not ii da tipul Predicate
+        // CriteriiUtilizator::faraPrieteni = referinta la o metoda statica; Predicate.not ii da tipul Predicate
         afiseaza("Cu cel putin un prieten", service.cautaUtilizatori(
                 Predicate.not(CriteriiUtilizator::faraPrieteni)));
     }
 
     private void afiseaza(String titlu, List<Utilizator> utilizatori) {
         System.out.println(titlu + ":");
-        // * System.out::println = referinta la metoda unui obiect anume (u -> System.out.println(u))
+        // System.out::println = referinta la metoda unui obiect anume (u -> System.out.println(u))
         utilizatori.forEach(System.out::println);
     }
 }

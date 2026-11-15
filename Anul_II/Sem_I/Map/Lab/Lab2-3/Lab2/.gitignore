@@ -1,3 +1,11 @@
+### Gradle ###
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+### Config cu parola reala (pe git e config.example.properties) ###
+src/main/resources/config.properties
+
 ### IntelliJ IDEA ###
 out/
 !**/src/main/**/out/

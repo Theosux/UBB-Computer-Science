@@ -62,19 +62,19 @@ public abstract class AbstractFileRepository<ID, E extends Entity<ID>> extends I
     private void loadData() {
         // citeste liniile din fisier si salveaza entitatile in memorie
         // fisier lipsa: repo gol, fisierul se creeaza la primul save (fara mesaj din repository)
-        Path path = Path.of(fileName); // *
-        if (!Files.exists(path)) // *
+        Path path = Path.of(fileName); //
+        if (!Files.exists(path)) //
             return;
 
-        List<String> lines; // *
-        // * Files.lines tine fisierul deschis cat citim din stream, try-with-resources il inchide
+        List<String> lines; //
+        // Files.lines tine fisierul deschis cat citim din stream, try-with-resources il inchide
         try (Stream<String> stream = Files.lines(path, StandardCharsets.UTF_8)) {
             lines = stream.collect(Collectors.toList());
         } catch (IOException | UncheckedIOException e) {
-            // * UncheckedIOException = IOException aruncata in timpul parcurgerii stream-ului, impachetata de Java
+            // UncheckedIOException = IOException aruncata in timpul parcurgerii stream-ului, impachetata de Java
             throw new RepositoryException("Eroare la citirea fisierului " + fileName, e);
         }
-        // * parcurgem indicii 0..n-1 ca sa stim numarul liniei (indice + 1)
+        // parcurgem indicii 0..n-1 ca sa stim numarul liniei (indice + 1)
         IntStream.range(0, lines.size())
                 .filter(i -> !lines.get(i).isBlank())
                 .forEach(i -> loadLine(i + 1, lines.get(i)));
@@ -88,7 +88,7 @@ public abstract class AbstractFileRepository<ID, E extends Entity<ID>> extends I
      * @throws RepositoryException if the line is corrupt or the id already exists in the file
      */
     private void loadLine(int lineNumber, String line) {
-        // * corpul while-ului de la Lab3, mutat intr-o metoda
+        // corpul while-ului de la Lab3, mutat intr-o metoda
         // linie corupta: oprim incarcarea cu un mesaj clar (fisier, nr linie, motiv), cauza ramane in exceptie
         E result;
         try {
@@ -110,12 +110,12 @@ public abstract class AbstractFileRepository<ID, E extends Entity<ID>> extends I
     private void writeToFile() {
         // rescrie tot fisierul cu entitatile din memorie
 
-        // * fiecare entitate devine o linie (map), liniile se strang intr-o lista (collect)
+        // fiecare entitate devine o linie (map), liniile se strang intr-o lista (collect)
         List<String> lines = stream()
                 .map(this::createEntityAsString)
                 .collect(Collectors.toList());
         try {
-            // * Files.write scrie fiecare linie urmata de un sfarsit de linie, ca writer.newLine()
+            // Files.write scrie fiecare linie urmata de un sfarsit de linie, ca writer.newLine()
             Files.write(Path.of(fileName), lines, StandardCharsets.UTF_8);
         } catch (IOException e) {
             // RepositoryException in loc de RuntimeException, cu IOException ca si cauza
