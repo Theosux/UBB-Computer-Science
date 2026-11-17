@@ -1,0 +1,5 @@
+			  | fals				, daca n = 0
+			  | 
+select(l1 l2 ... ln, e) = | l1					, daca e = 1
+			  | 
+			  | select(l2 ... ln, e-1)		, daca e > 1

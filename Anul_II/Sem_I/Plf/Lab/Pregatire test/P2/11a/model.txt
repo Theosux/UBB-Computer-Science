@@ -1,0 +1,19 @@
+		     | adevarat			, daca d*d > n
+		     |
+nuAreDivizori(n, d) =| fals			, daca d*d <= n si n mod d = 0
+		     |
+		     | nuAreDivizori(n, d+1)	, daca d*d <= n si n mod d != 0
+
+
+	  | fals		, daca n < 2
+	  |
+ePrim(n) =| adevarat		, daca n = 2
+	  |
+	  | nuAreDivizori(n, 2) , daca n > 2
+
+	
+			  | []						, daca n = 0
+			  |
+dubluPrime(l1 l2 ... ln) =| l1 (+) l1 (+) dubluPrime(l2 ... ln)		, daca ePrim(l1)
+			  |
+			  | l1 (+) dubluPrime(l2 ... ln)		, daca !ePrim(l1)

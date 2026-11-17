@@ -1,0 +1,5 @@
+			  | [] 					, daca n = 0
+			  | 
+sterge(e, l1 l2 ... ln) = | l1 (+) sterge(e, l2 ... ln)		, daca l1 != e
+			  | 
+			  | sterge(l2 ... ln)			, daca l1 = e

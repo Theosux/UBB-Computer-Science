@@ -1,0 +1,5 @@
+                                  | []						, daca n = 0
+				  |
+inlocuieste(l1 l2 ... ln, e, x) = | x (+) inlocuieste(l2 ... ln, e, x)		, daca l1 = e
+				  |
+				  | l1 (+) inlocuieste(l2 ... ln, e, x)		, daca l1 != e
