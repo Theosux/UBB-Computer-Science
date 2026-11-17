@@ -1,0 +1,34 @@
+2.
+	   | adevarat				, daca n = 2
+	   |
+ePrim(n) = | nuAreDivizori(n, 2)		, daca n > 2
+	   |
+	   | fals				, daca n < 2
+
+
+
+
+		      | adevarat		, daca d*d > n
+		      |
+nuAreDivizori(n, d) = | fals			, daca d*d <= n si n mod d = 0
+		      |
+		      | nuAreDivizori(n, d+1)	, daca d*d <= n si n mod d != 0
+
+
+		   | []				, daca i > n
+		   |
+listaPrime(i, n) = | i (+) listaPrime(i+1, n)	, daca i <= n si ePrim(i) = adevarat
+		   |
+		   | listaPrime(i+1, n)		, daca i <= n si ePrim(i) = fals
+
+
+
+descompunere(l1 l2 ... lm, s) =
+	1. (l1)						, daca l1 = s
+	2. descompunere(l2 ... lm, s)
+	3. l1 (+) descompunere(l2 ... lm, s - l1)	, daca s - l1 > 0
+
+
+descompunerePrime(n) = descompunere(listaPrime(2, n), n)
+
+toateDescompunerile(n) = lista tuturor solutiilor descompunerePrime(n) (findall)
