@@ -1,0 +1,17 @@
+			     | c				, daca n = 0
+inversare(l1 l2 ... ln, c) = |
+			     | inversare(l2 ... ln, l1 (+) c)	, daca n > 0
+
+
+				| []									, daca n = 0, m = 0, t = 0
+				|
+				| (1)									, daca n = 0, m = 0, t = 1
+				|
+adun(a1 ... an, b1 ... bm, t) = | ((a1+t) mod 10) (+) adun(a2 ... an, [], (a1+t) div 10)		, daca n > 0, si m = 0
+				|
+				| ((b1+t) mod 10) (+) adun([], b2 ... bm, (b1+t) div 10)		, daca n = 0, si m > 0
+				|
+				| ((a1+b1+t) mod 10) (+) adun(a2 ... an, b2 ... bm, (a1+b1+t) div 10)	, daca n > 0 si m > 0
+
+
+suma(a1 ... an, b1 ... bm) = inversare(adun(inversare(a1 ... an, []), inversare(b1 ... bm, []), 0), [])

@@ -1,0 +1,18 @@
+			     | c				, daca n = 0
+inversare(l1 l2 ... ln, c) = |
+			     | inversare(l2 ... ln, l1 (+) c)	, daca n > 0
+
+
+
+				| c						, daca n = 0 si lc > lb
+				| 
+				| b						, daca n = 0 si lc <= lb
+				| 
+secv(l1 ... ln, c, lc, b, lb) = | secv(l2 ... ln, l1 (+) c, lc+1, b, lb) 	, daca n > 0 si l1 mod 2 = 0
+				| 
+				| secv(l2 ... ln, [], 0, c, lc)			, daca n > 0, l1 mod 2 != 0 si lc > lb
+				|
+				| secv(l2 ... ln, [], 0, b, lb)			, daca n > 0, l1 mod 2 != 0 si lc <= lb
+
+
+secvPara(l1 ... ln) = inversare(secv(l1 ... ln, [], 0, [], 0), [])

@@ -1,3 +1,12 @@
 			     | c				, daca n = 0
 inversare(l1 l2 ... ln, c) = |
 			     | inversare(l2 ... ln, l1 (+) c)	, daca n > 0
+
+
+		      | (1)			, daca n = 0
+		      |
+succ1(l1 l2 ... ln) = | 0 (+) succ1(l2 ... ln)	, daca l1 = 9
+		      |
+		      | (l1+1) (+) l2 ... ln	, daca l1 < 9
+
+succesor(l1 ... ln) = inversare(succ1(inversare(l1 ... ln, [])), [])

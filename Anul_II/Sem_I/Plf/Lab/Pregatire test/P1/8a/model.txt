@@ -5,8 +5,8 @@ eMultime(l1 l2 ... ln) =| fals			, daca apare(l1, l2 ... ln)
 			| eMultime(l2 ... ln)	, daca !apare(l1, l2 ... ln)
 
 
-			| adevarat		, daca l1 = e
+			| fals			, daca n = 0
 			|
-apare(e, l1 l2 ... ln) =| fals			, daca n = 0
+apare(e, l1 l2 ... ln) =| adevarat		, daca l1 = e
 			|
 			| apare(e, l2 ... ln)	, daca l1 != e
