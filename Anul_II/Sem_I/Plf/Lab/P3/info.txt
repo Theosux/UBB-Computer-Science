@@ -1,0 +1,5 @@
+
+(Pentru P3 cautam varianta mai eficienta, nu bruteforce)
+(exista cazul in care suntem obligati sa facem doar bruteforce dar trebuie sa explicam de ce este necesar sa facem bruteforce)
+
+Test practic la inceputul laboratorului(P1 + P2a) ce intra la test)
