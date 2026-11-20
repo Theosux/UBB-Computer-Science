@@ -1,0 +1,1 @@
+Avem voie doar cu functiile de la laborator, fara functie de ciclu if sau while

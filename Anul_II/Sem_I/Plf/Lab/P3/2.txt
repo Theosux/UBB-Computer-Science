@@ -24,11 +24,11 @@ listaPrime(i, n) = | i (+) listaPrime(i+1, n)	, daca i <= n si ePrim(i) = adevar
 
 
 descompunere(l1 l2 ... lm, s) =
-	1. (l1)						, daca l1 = s
-	2. descompunere(l2 ... lm, s)
-	3. l1 (+) descompunere(l2 ... lm, s - l1)	, daca s - l1 > 0
+	 (l1)						, daca l1 = s
+	 descompunere(l2 ... lm, s)
+	 l1 (+) descompunere(l2 ... lm, s - l1)	, daca s - l1 > 0
 
 
 descompunerePrime(n) = descompunere(listaPrime(2, n), n)
 
-toateDescompunerile(n) = lista tuturor solutiilor descompunerePrime(n) (findall)
+toateDescompunerile(n) = U descompunerePrime(n) 

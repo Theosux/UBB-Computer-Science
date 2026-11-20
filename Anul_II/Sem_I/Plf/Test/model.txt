@@ -1,0 +1,21 @@
+Se da o lista de numere intregi. Se cere sa se adauge in lista dupa 1-ul element, al 3-lea, al 7-lea, al 15-lea ... o valoare data e.
+La prima adaugare elementul sa fie adaugat o data, la adaugarea urmatoare de 2 ori, la adaugarea a 3-a de 3 ori, etc. De exemplu:
+[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]0 => [1,0,2,3,0,0,4,5,6,7,0,0,0,8,9,10]
+
+model matematic:
+
+pn(pozitie necesara)
+p(pozitie)
+
+			          | []										, daca n <= 0
+			      	  |
+parcurgere(l1 ... ln, e, p, pn) = | l1 (+) parcurgere(l2 ... ln, e, p+1, pn)					, daca  n > 0 si p != pn
+			          |
+			          | l1 (+) adaugare(e, pn+1) (+) parcurgere(l2 ... ln, e, p+1, 2*pn + 1)	, daca n > 0 p = pn
+
+returnam o lista de elementul e, de n ori)
+
+
+		 | []					, daca n <= 0
+		 | 
+adaugare(e, n) = | e (+) adaugare(e, n-1)		, daca n > 0
